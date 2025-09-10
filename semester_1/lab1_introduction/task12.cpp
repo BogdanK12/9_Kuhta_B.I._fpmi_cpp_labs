@@ -18,7 +18,7 @@ int main(){
         }
         std::cout << " " << (i + 1 - n);
         if(i % 7 == 0){
-            std::cout << " " << std::endl;
+            std::cout << std::endl;
             std::cout << z << " |";
             z++;
         }
