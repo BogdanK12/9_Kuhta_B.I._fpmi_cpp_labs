@@ -1,14 +1,22 @@
 #include <iostream>
 
 int main() {
-    int n;
-    int i;
+    int n, i;
     int sum = 0;
+    int d = 1;
+    int z =1;
     std::cin >> n;
     for(i = 1; i <= n; i++){
-        sum = sum + i*i;
+        while(z <= i){
+            d = d * i;
+            z++;
+        };
+        z = 1;
+        sum = sum + d;
+        d = 1;
     }
-    std::cout << sum << std::endl; 
+    std::cout << "Vynik: " << std::endl;
+    std::cout << sum << std::endl; // напэўна ў нас не хапае памяці, якую дае int
     std::cin.clear(); 
     std::cin.ignore(32767, '\n');
     std::cin.get();
