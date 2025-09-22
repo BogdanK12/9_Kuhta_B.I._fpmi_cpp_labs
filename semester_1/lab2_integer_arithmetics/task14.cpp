@@ -1,6 +1,6 @@
 #include <iostream>
 
-int power(int h, int n){ // Ступені 10
+int power(int h, int n){ // Ступені
     int q = 1;
     for(int j = 1; j <= h; j++){
             q *= n;
