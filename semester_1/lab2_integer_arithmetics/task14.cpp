@@ -38,15 +38,18 @@ int main(){
         std::cout << "Only integers, please";
         std::exit(1);
     }
+
     while((a <= 0)||(b <= 0)){
 	    std::cout << "Integers must be positive. Write down new a and b: ";
 	    std::exit(1);
 	}
+
     for(int i = a; i <= b; i++){
         if(praverka(i)){
             std::cout << i << " ";
         }
     }
+    
     std::cin.clear(); 
     std::cin.ignore(32767, '\n');
     std::cin.get();
