@@ -19,13 +19,13 @@ int paradak(int n){ // Вызначаем колькасьць лічбаў у �
     return j;    
 } 
 
-bool praverka(int n){ // Правяраем, ці з'яўляецца лік лікам Армстронга
+bool praverka(int number){ // Правяраем, ці з'яўляецца лік лікам Армстронга
     int suma = 0;
     int roznasc = 0;
-    int bufer = n;
-    for(int i = paradak(n); i >= 0; i--){
-        suma += power(paradak(bufer), n / power(i - 1, 10));
-        n -= (n / power(i - 1, 10))*power(i - 1, 10);
+    int bufer = number;
+    for(int i = paradak(number); i >= 0; i--){
+        suma += power(paradak(bufer), number / power(i - 1, 10));
+        number -= (number / power(i - 1, 10))*power(i - 1, 10);
     }
     if(suma == bufer){
         return true;
@@ -39,8 +39,8 @@ int main(){
         std::exit(1);
     }
     while((a <= 0)||(b <= 0)){
-	std::cout << "Integers must be positive. Write down new a and b: ";
-	std::cin >> a >> b;
+	    std::cout << "Integers must be positive. Write down new a and b: ";
+	    std::exit(1);
 	}
     for(int i = a; i <= b; i++){
         if(praverka(i)){
