@@ -40,7 +40,7 @@ int main(){
     }
 
     while((a <= 0)||(b <= 0)){
-	    std::cout << "Integers must be positive. Write down new a and b: ";
+	    std::cout << "Integers must be positive.";
 	    std::exit(1);
 	}
 
@@ -49,7 +49,7 @@ int main(){
             std::cout << i << " ";
         }
     }
-    
+
     std::cin.clear(); 
     std::cin.ignore(32767, '\n');
     std::cin.get();
