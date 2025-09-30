@@ -13,6 +13,8 @@ int main(){
         std::exit(2);
     }
 
+    std::cout << "How many elements does your array have: ";
+
     if((!(std::cin >> n))||(n < 0)){
         std::cout << "Write down only positive numbers. ";
         std::exit(1);
@@ -31,6 +33,8 @@ int main(){
             ++number;
         }
     }
+
+    std::cout << number;
 
     std::cin.clear(); 
     std::cin.ignore(32767, '\n');

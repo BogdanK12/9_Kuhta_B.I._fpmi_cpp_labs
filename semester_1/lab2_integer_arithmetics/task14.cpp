@@ -10,7 +10,7 @@ int power(int h, int n){ // Ступені
 
 int paradak(int n){ // Вызначаем колькасьць лічбаў у ліку
     int j;
-    for(int i = 9; i >= 0; i -= 1){
+    for(int i = 10; i >= 0; i -= 1){
         if(n % power(i - 1, 10) != n){
             j = i;
             break;
@@ -34,15 +34,25 @@ bool praverka(int number){ // Правяраем, ці з'яўляецца лі�
 
 int main(){
     int a, b;
+    std::cout << "Write down 2 positive integers: ";
     if(!(std::cin >> a >> b)){
         std::cout << "Only integers, please";
         std::exit(1);
     }
 
-    while((a <= 0)||(b <= 0)){
+    if(a > b){
+        int temp;
+        temp = a;
+        a = b;
+        b = temp;
+    }
+
+    if((a <= 0)||(b <= 0)){
 	    std::cout << "Integers must be positive.";
 	    std::exit(1);
 	}
+
+    std::cout << "These are Armstrong's numbers between " << a << " and " << b << ":" << std::endl;
 
     for(int i = a; i <= b; i++){
         if(praverka(i)){
