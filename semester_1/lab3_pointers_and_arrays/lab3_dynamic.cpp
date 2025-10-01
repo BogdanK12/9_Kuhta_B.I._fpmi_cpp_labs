@@ -84,6 +84,7 @@ int main() {
     int n;
     int how;
     std::cout << "1 - manualy writen array. 0 - random array. ";
+    std::cin >> how;
 
     switch(how){
         case 1:
