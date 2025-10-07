@@ -6,15 +6,8 @@ void arrInputManual(int* arr, int n){
     for(int i = 0; i < n; ++i){
         if(!(std::cin >> arr[i])){
             std::cout << "Write down only integers.";
-        std::exit(2);
+            std::exit(2);
         }
-    }
-}
-
-void inputRandom(int* arr, int n, int a, int b, std::mt19937& gen){
-    std::uniform_int_distribution<int> element(a, b);
-    for(int i = 0; i < n; ++i){
-        arr[i] = element(gen);
     }
 }
 
@@ -53,7 +46,7 @@ int Pcounter(int *arrNum, int n, int P){
 
 void negativeChange(int* arrNum, int n){
     int negativeCounter = 0;
-	for(int i = 0; i < n; ++i){
+  	for(int i = 0; i < n; ++i){
 		if(arrNum[i] < 0){
 			int temp = i;
 			int tempVar = arrNum[i];
@@ -68,9 +61,9 @@ void negativeChange(int* arrNum, int n){
 
 void printArr(int* arr, int n){
     std::cout << "New array: ";
-	for(int i = 0; i < n; ++i){
-		std::cout << arr[i] << " ";
-	}
+    for(int i = 0; i < n; ++i){
+		    std::cout << arr[i] << " ";
+	  }
 }
 
 int main(){
@@ -103,24 +96,30 @@ int main(){
             std::cout << "Product of numbers that come after the biggest is: " << productAfterBig(arrNum, n) << "." << std::endl;
             negativeChange(arrNum, n);
             printArr(arrNum, n);
+            break;
         }
-        case 2:
+        case 0:
         {
             std::mt19937 gen(45218965);
-            std::uniform_int_distribution<int> dist(1, 10000);
+            std::uniform_int_distribution<int> dist(1, 1000);
             int n = dist(gen);
-            int *arr = new int[n];
+            int arr[nmax];
             std::cout << "Write down what can be minimal and maximal elements of array: ";
             int a, b;
             if((!(std::cin >> a >> b))||(a >= b)){
                 std::cout << "Write down only integers. Dont write 0. b must be greater than a. ";
                 std::exit(2);
             }
-            inputRandom(arr, n, a ,b, gen);
+            std::uniform_int_distribution<int> element(a, b);
+            for(int i = 0; i < n; ++i){
+                arr[i] = element(gen);
+            }
+            printArr(arr, n);
             std::cout << "There are " << Pcounter(arrNum, n, P) << " integers in your array, that are greater than " << P << "." << std::endl;
             std::cout << "Product of numbers that come after the biggest is: " << productAfterBig(arrNum, n) << "." << std::endl;
             negativeChange(arr, n);
-            printArr(arr,n);
+            printArr(arr, n);
+            break;
         }
         default:
         {
@@ -128,16 +127,6 @@ int main(){
             std::exit(4);
         }
     }
-
-    std::cout << "New array: ";
-
-	for(int i = 0; i < n; ++i){
-		std::cout << arrNum[i] << " ";
-	}
-
-    std::cin.clear(); 
-    std::cin.ignore(32767, '\n');
-    std::cin.get();
 
     return 0;
 }

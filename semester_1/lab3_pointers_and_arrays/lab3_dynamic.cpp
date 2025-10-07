@@ -12,13 +12,6 @@ void arrInputManual(int* arr, int n){
     }
 }
 
-void inputRandom(int* arr, int n, int a, int b, std::mt19937& gen){
-    std::uniform_int_distribution<int> element(a, b);
-    for(int i = 0; i < n; ++i){
-        arr[i] = element(gen);
-    }
-}
-
 int signChangeCount(int* arr, int n){
     int signChange;
     for(int i = 1; i < n; i++){
@@ -50,7 +43,7 @@ int sumBetweenZeros(int* arr, int n){
 
     int sumZeros = 0;
 
-    if(zeros >= 2){
+    if(zeros == 2){
         for(int i = (firstZero + 1) ; i < secZero; ++i){
             sumZeros += arr[i];
         }
@@ -60,24 +53,24 @@ int sumBetweenZeros(int* arr, int n){
 
 void Nchange(int* arr, int n, int N){
     int alliquotCounter = 0;
-	for(int i = 0; i < n; ++i){
-		if((arr[i] % N) == 0){
-			int temp = i;
-			int tempVar = arr[i];
-			for(int c = temp; c > alliquotCounter; --c){
-				arr[c] = arr[c - 1];
-			}
-			arr[alliquotCounter] = tempVar;
-			++alliquotCounter;
-		}
-	}
+	  for(int i = 0; i < n; ++i){
+		    if((arr[i] % N) == 0){
+			    int temp = i;
+			    int tempVar = arr[i];
+			    for(int c = temp; c > alliquotCounter; --c){
+				    arr[c] = arr[c - 1];
+			    }
+			    arr[alliquotCounter] = tempVar;
+			    ++alliquotCounter;
+		    }
+	  }
 }
 
 void printArr(int* arr, int n){
     std::cout << "New array: ";
-	for(int i = 0; i < n; ++i){
-		std::cout << arr[i] << " ";
-	}
+	  for(int i = 0; i < n; ++i){
+		    std::cout << arr[i] << " ";
+	  }
 }
 
 int main() {
@@ -106,8 +99,10 @@ int main() {
                 }
                 Nchange(arr, n, N);
                 printArr(arr,n);
+                delete[] arr;
+                break;
             }
-        case 2:
+        case 0:
             {
                 std::mt19937 gen(45218965);
                 std::uniform_int_distribution<int> dist(1, 10000);
@@ -119,7 +114,10 @@ int main() {
                     std::cout << "Write down only integers. Dont write 0. b must be greater than a. ";
                     std::exit(2);
                 }
-                inputRandom(arr, n, a ,b, gen);
+                std::uniform_int_distribution<int> element(a, b);
+                for(int i = 0; i < n; ++i){
+                    arr[i] = element(gen);
+                }
                 std::cout << "Integers change sign " << signChangeCount(arr, n) << " times." << std::endl;
                 std::cout << "Sum of elements between first and second zero elements is: " << sumBetweenZeros(arr, n) << "." << std::endl;
                 int N;
@@ -130,17 +128,14 @@ int main() {
                 }
                 Nchange(arr, n, N);
                 printArr(arr,n);
+                delete[] arr;
+                break;
             }
         default:
             {
                 std::cout << "You are stupid. ";
                 std::exit(3);
             }
-    }    
-    
-    std::cin.clear(); 
-    std::cin.ignore(32767, '\n');
-    std::cin.get();
-    
+    }
     return 0;
 }
