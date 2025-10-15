@@ -42,7 +42,7 @@ void inputSize(int& lin){
 void printMatrix(int** arr, int lin){
   for(int i = 0; i < lin; ++i){
     for(int j = 0; j < lin; ++j){
-        std::cout << " " << arr[i][j];
+      std::cout << " " << arr[i][j];
     }
     std::cout << std::endl;
   }
@@ -76,6 +76,11 @@ void sumInColumnsWithoutZeros(int** arr, int lin){
   }
 }
 
+void deleteMatrix(int** arr, int lin){
+  for(int i = 0; i < lin; ++i){
+      delete[] arr[i];
+  }
+}
 
 int main(){ 
   int lin;
@@ -93,16 +98,17 @@ int main(){
         inputSize(lin);
         int **arr = createMatrix(lin);        
         inputManually(arr, lin);
-        printMatrix(arr, lin);
         sumInColumnsWithoutZeros(arr, lin);
         swapLinesMatrix(arr, lin);
         printMatrix(arr, lin);
+        deleteMatrix(arr, lin);
+        delete[] arr;
         break;
       }
     case 0:
       {
         std::mt19937 gen(45218965);
-        std::uniform_int_distribution<int> dist(1, 10);  
+        std::uniform_int_distribution<int> dist(1, 100);  
         lin = dist(gen);
         int min, max;
         std::cout << "Write down min and max possible random elements: ";
@@ -115,6 +121,8 @@ int main(){
         sumInColumnsWithoutZeros(arr, lin);
         swapLinesMatrix(arr, lin);
         printMatrix(arr, lin);
+        deleteMatrix(arr, lin);
+        delete[] arr;
         break;
       }
     default:
