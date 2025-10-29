@@ -42,4 +42,3 @@ int main(){
   std::cout << string3;
   return 0;
 }
-;

@@ -21,7 +21,7 @@ void inputManually(int** arr, int arrSize){
 }
 
 int** createMatrixRandom(int lin, int min, int max, std::mt19937& gen){
-  std::uniform_int_distribution<int> elem(min, max);  
+  std::uniform_int_distribution<int> elem(min, max);
   int **arr = createMatrix(lin);
   for(int i = 0; i < lin; ++i){
     for(int j = 0; j < lin; ++j){
@@ -69,7 +69,7 @@ void sumInColumnsWithoutZeros(int** arr, int lin){
       }
     }
     if(zeros == 0){
-      std::cout << "Sum in " << (i + 1) << " column is: " << sumInCol << std::endl; 
+      std::cout << "Sum in " << (i + 1) << " column is: " << sumInCol << std::endl;
     }
     zeros = 0;
     sumInCol = 0;
@@ -82,7 +82,7 @@ void deleteMatrix(int** arr, int lin){
   }
 }
 
-int main(){ 
+int main(){
   int lin;
   int how;
 
@@ -96,7 +96,7 @@ int main(){
     case 1:
       {
         inputSize(lin);
-        int **arr = createMatrix(lin);        
+        int **arr = createMatrix(lin);
         inputManually(arr, lin);
         sumInColumnsWithoutZeros(arr, lin);
         swapLinesMatrix(arr, lin);
@@ -108,8 +108,7 @@ int main(){
     case 0:
       {
         std::mt19937 gen(45218965);
-        std::uniform_int_distribution<int> dist(1, 100);  
-        lin = dist(gen);
+        inputSize(lin);
         int min, max;
         std::cout << "Write down min and max possible random elements: ";
         if(!(std::cin >> min >> max)||(min >= max)){

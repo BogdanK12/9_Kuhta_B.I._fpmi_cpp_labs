@@ -1,10 +1,11 @@
 #include <iostream>
 
-int wordSearchIndex(std::string text, std::string word){
-  int index = text.length() + 1;
+int wordSearchIndex(std::string text, std::string word, bool &existn){
+  int index;
+  existn = false;
   for(int i = 0; i <= (text.length() - word.length()); ++i){
     if(text[i] == word[0]){ // znachodzim pierszy sypadajuchy symbal
-      int coincidence = 1; 
+      int coincidence = 1;
       for(int j = 1; j < word.length(); ++j){
         if(text[i + j] == word[j]){
           coincidence += 1;
@@ -12,6 +13,7 @@ int wordSearchIndex(std::string text, std::string word){
       }
       if(coincidence == word.length()){
         index = i;
+        existn = true;
         break;
       }
     }
@@ -25,6 +27,7 @@ void replaceWords(std::string& text, std::string word1, std::string word2, int i
   if(word1.length() == word2.length()){
     for(int i = index; i < (index + word1.length()); ++i){
       text[i] = word2[k];
+      std::cout << text;
       ++k;
     }
   } else if(word1.length() <= word2.length()){
@@ -37,6 +40,7 @@ void replaceWords(std::string& text, std::string word1, std::string word2, int i
       }
       for(int i = index; i < (index + word2.length()); ++i){
         text[i] = word2[k];
+        std::cout << text;
         ++k;
       }
   } else{
@@ -46,6 +50,7 @@ void replaceWords(std::string& text, std::string word1, std::string word2, int i
       }
       for(int i = index; i < (index + word2.length()); ++i){
         text[i] = word2[k];
+        std::cout << text;
         ++k;
       }
       for(int i = (text.length() - abs(diff)); i < text.length(); ++i){
@@ -58,18 +63,22 @@ int main(){
   std::string word1, word2, textInput;
   std::cout << "Input your words: ";
   std::cin >> word1 >> word2;
-  std::cout << std::endl << "Ok. " << std::endl;
   std::getline(std::cin, textInput);
   if((word1.length() > textInput.length()) || (word2.length() > textInput.length())){
     std::cout << "Word must be longer than text!";
     std::exit(52);
   }
   int diff;
-  int index1 = wordSearchIndex(textInput, word1);
-  int index2 = wordSearchIndex(textInput, word2);
+  bool exist1, exist2;
+  int index1 = wordSearchIndex(textInput, word1, exist1);
+  int index2 = wordSearchIndex(textInput, word2, exist2);
   std::cout << std::endl;
-  replaceWords(textInput, word1, word2, index1, diff);
-  replaceWords(textInput, word2, word1, index2 + diff, diff);
+  if(exist1){
+      replaceWords(textInput, word1, word2, index1, diff);
+  }
+  if(exist2){
+      replaceWords(textInput, word2, word1, index2 + diff, diff);
+  }
   std::cout << "New text is: " << textInput;
   return 0;
 }
