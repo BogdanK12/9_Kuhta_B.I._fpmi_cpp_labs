@@ -11,12 +11,12 @@ std::string sumOfStrings(std::string string1, std::string string2){
   int j = 0;
   int k = 0;
   while(i < string1.length() + string2.length()){
-    while((string1[j] != ' ') && (j < string1.length() + 1)){
+    while((string1[j] != ' ') && (j < string1.length())){
       string3 += string1[j];
       ++i;
       ++j;
     }
-    if((i < string1.length() + string2.length()) && (j < string1.length())){
+    if((i < string1.length() + string2.length()) && (j <= string1.length())){
       string3 += ' ';
       ++j;
     }
@@ -26,7 +26,7 @@ std::string sumOfStrings(std::string string1, std::string string2){
       ++i;
       ++k;
     }
-    if((i < string1.length() + string2.length()) && (k < string2.length() + 1)){
+    if((i < string1.length() + string2.length()) && (k < string2.length()) && (j < string1.length())){
       string3 += ' ';
       ++k;
     }
@@ -39,6 +39,6 @@ int main(){
   inputString(string1);
   inputString(string2);
   std::string string3 = sumOfStrings(string1, string2);
-  std::cout << string3;
+  std::cout << "Final string is: " << string3;
   return 0;
 }
