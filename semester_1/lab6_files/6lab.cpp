@@ -1,3 +1,4 @@
+#include <fstream>
 #include <iostream>
 
 int wordSearchIndex(std::string text, std::string word, bool &existn){
@@ -60,6 +61,15 @@ void replaceWords(std::string& text, std::string word1, std::string word2, int i
 }
 
 int main(){
+  std::ofstream outf("output.txt");
+  std::ifstream inf("input.txt");
+  if(!std::outf)
+  {
+    std::cout << "There is some bug.";
+    std::exit(1);
+  }
+  fin >> string1;
+  fin >> string2; 
   std::string word1, word2, textInput;
   std::cout << "Input your words: ";
   std::cin >> word1 >> word2;
