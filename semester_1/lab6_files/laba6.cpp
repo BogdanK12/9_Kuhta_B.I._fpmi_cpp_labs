@@ -1,7 +1,7 @@
 #include <fstream>
 #include <iostream>
 
-int wordSearchIndex(std::fstream &text, std::string word, bool &existn)
+int wordSearchIndex(std::fstream &text, const std::string &word, bool &existn)
 {
   int index = 0;
   existn = false;
@@ -28,7 +28,7 @@ int wordSearchIndex(std::fstream &text, std::string word, bool &existn)
   return index;
 }
 
-void replace_word(std::fstream &text, std::string word1, std::string word2)
+void replace_word(std::fstream &text, const std::string &word1, const std::string &word2)
 {
   if(word1.length() == word2.length())
   {
@@ -55,6 +55,8 @@ int main() {
     std::exit(1);
   }
   bool existence;
+  std::string word1, word2;
+  in1 >> word1 >> word2;
   std::cout << "This is result: " << wordSearchIndex(in1, "africans", existence);
   return 0;
 }
