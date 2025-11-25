@@ -96,6 +96,7 @@
 //   }
 // }
 
+// finds words index
 long long find_word_index(const std::string &text, const std::string &word)
 {
   return text.find(word);
