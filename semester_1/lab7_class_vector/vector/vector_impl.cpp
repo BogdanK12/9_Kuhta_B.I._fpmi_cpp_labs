@@ -150,10 +150,10 @@
   std::ostream& operator<< (std::ostream& os, const Vector &vec)
   {
     os << "[";
-    for(size_t i = 0; i < vec.Size(); ++i)
+    for(size_t i = 0; i < vec.size_; ++i)
     {
-      os << vec[i];
-      if (i < vec.Size() - 1) {
+      os << vec.array_[i];
+      if (i < vec.size_ - 1) {
         os << ", ";
       }
     }
