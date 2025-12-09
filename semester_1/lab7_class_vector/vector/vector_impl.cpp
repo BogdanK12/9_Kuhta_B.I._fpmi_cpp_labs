@@ -52,11 +52,16 @@
     return *this;
   }
 
-  int& Vector::operator [] (size_t index) const
+  int& Vector::operator [] (size_t index) 
   {
     return this->array_[index];
   }
 
+  int& Vector::operator [] (size_t index) const
+  {
+    return this->array_[index];
+  }
+  
   void Vector::resize_if_needed()
   {
     if(this->array_ == nullptr){
@@ -137,6 +142,17 @@
   }
 
   int& Vector::At (size_t index)
+  {
+    if(index < this->size_)
+    {
+      return this->array_[index];
+    } else
+    {
+      throw std::out_of_range("This argument is unavaible: Vector has only " + std::to_string(this->size_));
+    }
+  }
+
+  int& Vector::At (size_t index) const
   {
     if(index < this->size_)
     {

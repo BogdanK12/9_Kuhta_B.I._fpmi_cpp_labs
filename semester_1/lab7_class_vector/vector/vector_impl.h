@@ -28,6 +28,8 @@ public:
 
     int& operator [] (size_t index) const;
 
+    int& operator [] (size_t index);
+
     size_t Size() const;
 
     size_t Capacity() const;
@@ -43,6 +45,8 @@ public:
     void Clear();
 
     int& At(size_t index);
+
+    int& At(size_t index) const;
 
     friend std::ostream & operator<< (std::ostream & os, const Vector &vec);
 
