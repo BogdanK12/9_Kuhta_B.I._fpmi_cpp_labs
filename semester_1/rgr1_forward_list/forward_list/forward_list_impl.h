@@ -16,6 +16,8 @@ private:
 
 public:
     class ForwardListIterator {
+    private:
+        Node* position_;
     public:
         using iterator_category = std::forward_iterator_tag;
         using difference_type = std::ptrdiff_t;
@@ -39,24 +41,16 @@ public:
             return retval;
         }
 
-        bool operator==(const ForwardListIterator& other) const {
-            // your code goes here
-        }
+        bool operator==(const ForwardListIterator& other) const;
 
-        bool operator!=(const ForwardListIterator& other) const {
-            return !(*this == other);
-        }
+        bool operator!=(const ForwardListIterator& other) const;
 
-        reference operator*() const {
-            return position_->value_;
-        }
+        reference operator*() const;
 
         pointer operator->() {
             return &position_->value_;
         }
-        
-    private:
-        Node* position_;
+
     };
 
     // methods for "ranged-based for loop"
