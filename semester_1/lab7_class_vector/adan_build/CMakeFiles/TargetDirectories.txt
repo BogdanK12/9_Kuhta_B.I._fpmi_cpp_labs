@@ -1,0 +1,10 @@
+/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/adan_build/CMakeFiles/contrib_catch_main.dir
+/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/adan_build/CMakeFiles/test-all.dir
+/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/adan_build/CMakeFiles/edit_cache.dir
+/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/adan_build/CMakeFiles/rebuild_cache.dir
+/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/adan_build/multiplication/CMakeFiles/test_multiplication.dir
+/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/adan_build/multiplication/CMakeFiles/edit_cache.dir
+/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/adan_build/multiplication/CMakeFiles/rebuild_cache.dir
+/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/adan_build/vector/CMakeFiles/test_vector.dir
+/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/adan_build/vector/CMakeFiles/edit_cache.dir
+/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/adan_build/vector/CMakeFiles/rebuild_cache.dir
