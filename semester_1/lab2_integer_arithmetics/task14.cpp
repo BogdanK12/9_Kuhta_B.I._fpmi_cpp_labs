@@ -1,6 +1,7 @@
-#include <iostream>
+#include "task14.h"
 
-int power(int h, int n){ // Ступені
+// Ступені
+int power(int h, int n){
     int q = 1;
     for(int j = 1; j <= h; j++){
             q *= n;
@@ -8,8 +9,8 @@ int power(int h, int n){ // Ступені
     return q;
 }
 
-int power_finder(int n){ // Вызначаем колькасьць лічбаў у ліку
-    int j = 0;
+// Вызначаем колькасьць лічбаў у ліку
+int power_finder(int n){     int j = 0;
     while (n > 0)
     {
         n /= 10;
@@ -18,15 +19,15 @@ int power_finder(int n){ // Вызначаем колькасьць лічбаў
     return j;
 }
 
-bool is_armstrong(int number){ // Правяраем, ці з'яўляецца лік лікам Армстронга
+// Правяраем, ці з'яўляецца лік лікам Армстронга
+bool is_armstrong(int number){
     int suma = 0;
-    int roznasc = 0;
-    int bufer = number;
-    for(int i = paradak(number); i >= 0; i--){
-        suma += power(paradak(bufer), number / power(i - 1, 10));
-        number -= (number / power(i - 1, 10))*power(i - 1, 10);
+    int buffer = number;
+    int power_of_number = power_finder(number);
+    while(number > 0)
+    {
+        suma += power(power_of_number, number % 10);
+        number /= 10;
     }
-    if(suma == bufer){
-        return true;
-    } else return false;
+    return suma == buffer;
 }

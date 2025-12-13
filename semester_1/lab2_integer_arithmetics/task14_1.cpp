@@ -23,7 +23,7 @@ int main(){
     std::cout << "These are Armstrong's numbers between " << a << " and " << b << ":" << std::endl;
 
     for(int i = a; i <= b; i++){
-        if(praverka(i)){
+        if(is_armstrong(i)){
             std::cout << i << " ";
         }
     }

@@ -1,7 +1,7 @@
-#include <iostream>
+#pragma once
 
-int power(int n, int p);
+int power(int h, int n);
 
 int power_finder(int n);
 
-bool is_armsrtong(int n);
+bool is_armstrong(int number);
