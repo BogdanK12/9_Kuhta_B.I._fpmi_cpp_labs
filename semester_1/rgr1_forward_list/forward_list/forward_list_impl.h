@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstddef>
 #include <iterator>
 #include <iostream>
 
@@ -13,6 +14,8 @@ private:
         explicit Node(int value) : value_(value), next_(nullptr) {
         }
     };
+    Node* first_;
+    size_t size_;
 
 public:
     class ForwardListIterator {
@@ -25,21 +28,11 @@ public:
         using pointer = value_type*;
         using reference = value_type&;
 
-        explicit ForwardListIterator(Node* position) : position_(position) {
-        }
+        explicit ForwardListIterator(Node* position) : position_(position) {}
 
-        ForwardListIterator& operator++() {  // prefix
-            if (position_ != nullptr) {
-                position_ = position_->next_;
-            }
-            return *this;
-        }
+        ForwardListIterator& operator++();
 
-        ForwardListIterator operator++(int) {  // postfix
-            ForwardListIterator retval = *this;
-            ++(*this);
-            return retval;
-        }
+        ForwardListIterator operator++(int);
 
         bool operator==(const ForwardListIterator& other) const;
 
@@ -47,20 +40,16 @@ public:
 
         reference operator*() const;
 
-        pointer operator->() {
-            return &position_->value_;
-        }
+        pointer operator->();
 
     };
 
     // methods for "ranged-based for loop"
     // 1) non-const version
-    ForwardListIterator begin() {
+    ForwardListIterator begin();
         // your code goes here
-    }
-    ForwardListIterator end() {
+    ForwardListIterator end();
         // your code goes here
-    }
 
     // 2) const version
     // TODO: think about return type
@@ -118,6 +107,4 @@ public:
     // get size of the list
     size_t Size() const;
 
-private:
-    // your code goes here
 };
