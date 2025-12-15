@@ -167,20 +167,6 @@ void ForwardList::pop_next(Node* point)
     point->next_ = temp;
 }
 
-void ForwardList::pop_this(Node* point)
-{
-    if(point == nullptr){return;}
-    if(point->next_ == nullptr)
-    {
-        delete point;
-    } else {
-    Node* temp = point->next_;
-    point->value_ = point->next_->value_;
-    point->next_ = point->next_->next_;
-    delete temp;
-    }
-}
-
 void ForwardList::PopFront()
 {
     if(this->first_ == nullptr){ return;}
@@ -193,13 +179,20 @@ void ForwardList::PopFront()
 void ForwardList::Remove(int32_t value)
 {
     Node* temp = this->first_;
-    while (temp != nullptr)
+    while(temp == this->first_)
     {
-        if(temp->next_->value_ == value)
+        if(this->first_->value_ == value)
         {
-            this->pop_next(temp);
+            this->PopFront();
+            temp = this->first_;
+        }
+        else
+        {
+            break;
         }
     }
+    temp = this->first_;
+
 }
 
 bool ForwardList::FindByValue(int32_t value)
