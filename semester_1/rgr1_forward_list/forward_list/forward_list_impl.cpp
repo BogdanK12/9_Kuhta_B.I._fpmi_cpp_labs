@@ -179,20 +179,29 @@ void ForwardList::PopFront()
 void ForwardList::Remove(int32_t value)
 {
     Node* temp = this->first_;
-    while(temp == this->first_)
+    ForwardListIterator iter = this->begin();
+    ForwardListIterator iter_end = this->end();
+    size_t first_row = 0;
+    while(iter != iter_end && *iter == value)
     {
-        if(this->first_->value_ == value)
-        {
-            this->PopFront();
-            temp = this->first_;
-        }
-        else
-        {
-            break;
-        }
+        ++first_row;
+        ++iter;
+    }
+    for(size_t i = 0; i < first_row; ++i)
+    {
+        this->PopFront();
     }
     temp = this->first_;
-
+    while(temp != nullptr && temp->next_ != nullptr)
+    {
+        if(temp->next_->value_ == value)
+        {
+            this->pop_next(temp);
+        } else
+        {
+            temp = temp->next_;
+        }
+    }
 }
 
 bool ForwardList::FindByValue(int32_t value)
