@@ -54,13 +54,8 @@ public:
     // 2) const version
     // TODO: think about return type
     // (is it exactly ForwardListIterator?)
-    ForwardListIterator begin() const {
-        // your code goes here
-    }
-    ForwardListIterator end() const {
-        // your code goes here
-    }
-
+    ForwardListIterator begin() const;
+    ForwardListIterator end() const;
     // default constructor
     ForwardList();
 
@@ -81,6 +76,8 @@ public:
 
     // insert new element on the top of the list
     void PushFront(int32_t value);
+
+    void pop_next(Node* point);
 
     // delete first element of the list
     void PopFront();

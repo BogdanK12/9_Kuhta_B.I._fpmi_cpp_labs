@@ -4,13 +4,12 @@
 #include <cstdio>
 #include <iostream>
 #include <iterator>
-#include <regex>
 #include "forward_list_impl.h"
 
 // your code goes here
 
-ForwardList()
-: first_(nullptr), size_(0);
+ForwardList::ForwardList()
+: first_(nullptr), size_(0){}
 
 ForwardList::ForwardListIterator ForwardList::begin()
 {
@@ -28,6 +27,23 @@ ForwardList::ForwardListIterator ForwardList::end()
     ForwardListIterator retval(temp);
     return retval;
 }
+
+// ForwardList::ForwardListIterator ForwardList::begin() const
+// {
+//     ForwardListIterator retval(this->first_);
+//     return retval;
+// }
+
+// ForwardList::ForwardListIterator ForwardList::end() const
+// {
+//     Node* temp = this->first_;
+//     while(temp->next_ != nullptr)
+//     {
+//         temp = temp->next_;
+//     }
+//     ForwardListIterator retval(temp);
+//     return retval;
+// }
 
 ForwardList::ForwardListIterator& ForwardList::ForwardListIterator::operator ++()
 {
@@ -67,26 +83,157 @@ int* ForwardList::ForwardListIterator::operator ->()
 
 void ForwardList::push_back(int32_t value)
 {
-    Node* temp = this->first_;
-    while(temp->next_ != nullptr)
-    {
-        temp = temp->next_;
-    }
-    Node new_node(value);
-    temp->next_ = &new_node;
+   if(this->first_ == nullptr)
+   {
+       this->first_ = new Node(value);
+       this->size_++;
+   }
+   else
+   {
+       Node* temp = this->first_;
+       while(temp->next_ != nullptr)
+       {
+           temp = temp->next_;
+       }
+       Node* new_node = new Node(value);
+       temp->next_ = new_node;
+       this->size_++;
+   }
 }
 
-void ForwardList::push_back2(int32_t value)
-{
-    ForwardListIterator iter = this->end();
-    Node new_node(value);
-    (*iter.position_) = &new_node;
-}
-
-ForwardList(const ForwardList& rhs)
+ForwardList::ForwardList(const ForwardList& rhs)
+: first_(nullptr), size_(0)
 {
     ForwardListIterator iter = rhs.begin();
+    while(iter != rhs.end())
+    {
+        push_back(*iter);
+        ++iter;
+    }
+}
 
+ForwardList::ForwardList(size_t count, int32_t value)
+: first_(nullptr), size_(0)
+{
+    for(size_t size = 0; size < count; ++size)
+    {
+        push_back(value);
+    }
+}
+
+ForwardList::ForwardList(std::initializer_list<int32_t> init)
+: first_(nullptr), size_(0);
+{
+    for(int32_t value : init)
+    {
+        push_back(value);
+    }
+}
+
+ForwardList& ForwardList::operator= (const ForwardList rhs)
+{
+    ForwardList temp(rhs);
+    std::swap(this->first_, temp.first_);
+    std::swap(this->size_, temp.size_);
+    return *this;
+}
+
+ForwardList::~ForwardList()
+{
+    Node* temp = this->first_;
+    if (temp == nullptr) {return;}
+    Node* temp2 = this->first_->next_;
+    while(temp2 != nullptr)
+    {
+        delete temp;
+        temp = temp2;
+        temp2 = temp2->next_;
+    }
+}
+
+void ForwardList::PushFront(int32_t value)
+{
+    Node* temp = this->first_->next_;
+    Node* new_node = new Node(value);
+    this->first_ = new_node;
+    new_node->next_ = temp;
+}
+
+void ForwardList::pop_next(Node* point)
+{
+    if(point == nullptr || point->next_ == nullptr){ return;}
+    Node* temp = point->next_->next_;
+    delete point->next_;
+    point->next_ = temp;
+}
+
+void ForwardList::pop_this(Node* point)
+{
+    if(point == nullptr){return;}
+    if(point->next_ == nullptr)
+    {
+        delete point;
+    } else {
+    Node* temp = point->next_;
+    point->value_ = point->next_->value_;
+    point->next_ = point->next_->next_;
+    delete temp;
+    }
+}
+
+void ForwardList::PopFront()
+{
+    if(this->first_ == nullptr){ return;}
+    Node* temp = this->first_->next_;
+    delete this->first_;
+    this->first_ = temp;
+    --this->size_;
+}
+
+void ForwardList::Remove(int32_t value)
+{
+    Node* temp = this->first_;
+    while (temp != nullptr)
+    {
+        if(temp->next_->value_ == value)
+        {
+            this->pop_next(temp);
+        }
+    }
+}
+
+bool ForwardList::FindByValue(int32_t value)
+{
+    ForwardList::ForwardListIterator iter = this->begin();
+    ForwardList::ForwardListIterator iter_end = this->end();
+    while(iter != iter_end)
+    {
+        if(*iter == value)
+        {
+            return true;
+        }
+        ++iter;
+    }
+    return false;
+}
+
+void ForwardList::Print(std::ostream& out)
+{
+    ForwardList::ForwardListIterator iter = this->begin();
+    ForwardList::ForwardListIterator iter_end = this->end();
+    while(iter != iter_end)
+    {
+        out << *iter << " ";
+        ++iter;
+    }
+}
+
+void ForwardList::Clear()
+{
+    while(this->first_ != nullptr)
+    {
+           this->PopFront();
+    }
 }
 
 int32_t ForwardList::Front() const
