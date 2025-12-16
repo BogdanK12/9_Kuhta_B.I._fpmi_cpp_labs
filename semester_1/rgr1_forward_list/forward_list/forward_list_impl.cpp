@@ -1,4 +1,3 @@
-#include <cmath>
 #include <cstddef>
 #include <cstdint>
 #include <cstdio>
@@ -19,31 +18,33 @@ ForwardList::ForwardListIterator ForwardList::begin()
 
 ForwardList::ForwardListIterator ForwardList::end()
 {
+    ForwardListIterator retval(nullptr);
+    return retval;
+    // Node* temp = this->first_;
+    // while(temp->next_ != nullptr)
+    // {
+    //     temp = temp->next_;
+    // }
+    // ForwardListIterator retval(temp);
+    // return retval;
+}
+
+ForwardList::ForwardListIterator ForwardList::begin() const
+{
+    ForwardListIterator retval(this->first_);
+    return retval;
+}
+
+ForwardList::ForwardListIterator ForwardList::end() const
+{
     Node* temp = this->first_;
-    while(temp->next_ != nullptr)
+    while(temp != nullptr)
     {
         temp = temp->next_;
     }
     ForwardListIterator retval(temp);
     return retval;
 }
-
-// ForwardList::ForwardListIterator ForwardList::begin() const
-// {
-//     ForwardListIterator retval(this->first_);
-//     return retval;
-// }
-
-// ForwardList::ForwardListIterator ForwardList::end() const
-// {
-//     Node* temp = this->first_;
-//     while(temp->next_ != nullptr)
-//     {
-//         temp = temp->next_;
-//     }
-//     ForwardListIterator retval(temp);
-//     return retval;
-// }
 
 ForwardList::ForwardListIterator& ForwardList::ForwardListIterator::operator ++()
 {
@@ -122,7 +123,7 @@ ForwardList::ForwardList(size_t count, int32_t value)
 }
 
 ForwardList::ForwardList(std::initializer_list<int32_t> init)
-: first_(nullptr), size_(0);
+: first_(nullptr), size_(0)
 {
     for(int32_t value : init)
     {
@@ -130,7 +131,7 @@ ForwardList::ForwardList(std::initializer_list<int32_t> init)
     }
 }
 
-ForwardList& ForwardList::operator= (const ForwardList rhs)
+ForwardList& ForwardList::operator= (const ForwardList& rhs)
 {
     ForwardList temp(rhs);
     std::swap(this->first_, temp.first_);
@@ -141,22 +142,31 @@ ForwardList& ForwardList::operator= (const ForwardList rhs)
 ForwardList::~ForwardList()
 {
     Node* temp = this->first_;
-    if (temp == nullptr) {return;}
-    Node* temp2 = this->first_->next_;
-    while(temp2 != nullptr)
+    if(temp == nullptr){ return;}
+    while (temp->next_ != nullptr)
     {
+        Node* temp2 = temp->next_;
         delete temp;
         temp = temp2;
-        temp2 = temp2->next_;
     }
+    delete temp;
 }
 
 void ForwardList::PushFront(int32_t value)
 {
-    Node* temp = this->first_->next_;
-    Node* new_node = new Node(value);
-    this->first_ = new_node;
-    new_node->next_ = temp;
+    ++this->size_;
+    if(this->first_ == nullptr)
+    {
+        Node* new_node = new Node(value);
+        this->first_ = new_node;
+        return;
+    } else
+    {
+        Node* temp = this->first_;
+        Node* new_node = new Node(value);
+        this->first_ = new_node;
+        new_node->next_ = temp;
+    }
 }
 
 void ForwardList::pop_next(Node* point)
@@ -165,6 +175,7 @@ void ForwardList::pop_next(Node* point)
     Node* temp = point->next_->next_;
     delete point->next_;
     point->next_ = temp;
+    --this->size_;
 }
 
 void ForwardList::PopFront()
@@ -221,13 +232,16 @@ bool ForwardList::FindByValue(int32_t value)
 
 void ForwardList::Print(std::ostream& out)
 {
+    if(this->size_ == 0){ return;}
     ForwardList::ForwardListIterator iter = this->begin();
     ForwardList::ForwardListIterator iter_end = this->end();
     while(iter != iter_end)
     {
-        out << *iter << " ";
+        out << *iter /* << " " */;
         ++iter;
+        if(iter != iter_end){ out << " ";}
     }
+    // out << *iter_end;
 }
 
 void ForwardList::Clear()
@@ -244,6 +258,7 @@ int32_t ForwardList::Front() const
     {
         return this->first_->value_;
     }
+    return 0;
 }
 
 size_t ForwardList::Size() const

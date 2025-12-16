@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <cstdint>
 #include <iterator>
 #include <iostream>
 
@@ -76,6 +77,8 @@ public:
 
     // insert new element on the top of the list
     void PushFront(int32_t value);
+
+    void push_back(int32_t value);
 
     void pop_next(Node* point);
 
