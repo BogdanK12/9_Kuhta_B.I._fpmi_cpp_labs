@@ -37,12 +37,7 @@ ForwardList::ForwardListIterator ForwardList::begin() const
 
 ForwardList::ForwardListIterator ForwardList::end() const
 {
-    Node* temp = this->first_;
-    while(temp != nullptr)
-    {
-        temp = temp->next_;
-    }
-    ForwardListIterator retval(temp);
+    ForwardListIterator retval(nullptr);
     return retval;
 }
 
