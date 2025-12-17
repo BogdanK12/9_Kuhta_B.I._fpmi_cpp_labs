@@ -26,7 +26,7 @@ public:
 
     Vector& operator = (const Vector &other);
 
-    int& operator [] (size_t index) const;
+    const int& operator [] (size_t index) const;
 
     int& operator [] (size_t index);
 
@@ -46,7 +46,7 @@ public:
 
     int& At(size_t index);
 
-    int& At(size_t index) const;
+    const int& At(size_t index) const;
 
     friend std::ostream & operator<< (std::ostream & os, const Vector &vec);
 

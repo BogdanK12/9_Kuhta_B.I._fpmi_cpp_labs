@@ -8,13 +8,7 @@
   Vector::Vector(): capacity_(0), size_(0), array_(nullptr){};
 
   Vector::Vector(int size)
-  : capacity_(2 * size), size_(size), array_(new int[capacity_])
-  {
-    for(int i = 0; i < size; ++i)
-    {
-      this->array_[i] = 0;
-    }
-  };
+  : capacity_(size), size_(size), array_(new int[capacity_]{}){};
 
   Vector::~Vector()
   {
@@ -47,8 +41,14 @@
     this->capacity_ = other.capacity_;
     this->size_ = other.size_;
     delete [] this->array_;
-    this->array_ = new int[capacity_];
-    std::copy(other.array_, other.array_ + this->size_, this->array_);
+    if(other.array_ != nullptr)
+    {
+      this->array_ = new int[capacity_];
+      std::copy(other.array_, other.array_ + this->size_, this->array_); 
+    } else
+    {
+      this->array_ = nullptr;
+    }
     return *this;
   }
 
@@ -57,26 +57,29 @@
     return this->array_[index];
   }
 
-  int& Vector::operator [] (size_t index) const
+  const int& Vector::operator [] (size_t index) const
   {
     return this->array_[index];
   }
   
   void Vector::resize_if_needed()
   {
-    if(this->array_ == nullptr){
-      this->capacity_ = 2;
+    if(this->array_ == nullptr || this->capacity_ == 0){
+      this->capacity_ = 1;
+      delete [] this->array_;
       this->array_ = new int[this->capacity_];
     } else if(this->size_ == capacity_)
     {
-      int* temp_array = new int[this->capacity_ * 2];
-      std::copy(this->array_, this->array_ + this->size_, temp_array);
       this->capacity_ *= 2;
+      int* temp_array = new int[this->capacity_];
+      std::copy(this->array_, this->array_ + this->size_, temp_array);
       delete [] this->array_;
       this->array_ = temp_array;
       temp_array = nullptr;    
     }
   }
+
+  
   
   void Vector::PushBack(int element)
   {
@@ -117,8 +120,6 @@
 
   void Vector::Clear()
   {
-    delete [] this->array_;
-    this->array_ = new int[this->capacity_];
     this->size_ = 0;
   }
 
@@ -152,7 +153,7 @@
     }
   }
 
-  int& Vector::At (size_t index) const
+  const int& Vector::At (size_t index) const
   {
     if(index < this->size_)
     {

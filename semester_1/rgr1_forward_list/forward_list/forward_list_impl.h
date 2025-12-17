@@ -44,7 +44,7 @@ public:
         pointer operator->();
 
     };
-
+    
     // methods for "ranged-based for loop"
     // 1) non-const version
     ForwardListIterator begin();
