@@ -1,8 +1,8 @@
-# Install script for directory: /home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector
+# Install script for directory: /home/bbquiz/proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/var/empty/local")
+  set(CMAKE_INSTALL_PREFIX "/usr/local")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -12,7 +12,7 @@ if(NOT DEFINED CMAKE_INSTALL_CONFIG_NAME)
     string(REGEX REPLACE "^[^A-Za-z0-9_]+" ""
            CMAKE_INSTALL_CONFIG_NAME "${BUILD_TYPE}")
   else()
-    set(CMAKE_INSTALL_CONFIG_NAME "")
+    set(CMAKE_INSTALL_CONFIG_NAME "ASAN")
   endif()
   message(STATUS "Install configuration: \"${CMAKE_INSTALL_CONFIG_NAME}\"")
 endif()
@@ -39,20 +39,20 @@ endif()
 
 # Set path to fallback-tool for dependency-resolution.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "/run/current-system/sw/bin/objdump")
+  set(CMAKE_OBJDUMP "/usr/bin/objdump")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/adan_build/multiplication/cmake_install.cmake")
-  include("/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/adan_build/vector/cmake_install.cmake")
+  include("/home/bbquiz/proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/adan_build/multiplication/cmake_install.cmake")
+  include("/home/bbquiz/proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/adan_build/vector/cmake_install.cmake")
 
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/adan_build/install_local_manifest.txt"
+  file(WRITE "/home/bbquiz/proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/adan_build/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()
 if(CMAKE_INSTALL_COMPONENT)
@@ -68,6 +68,6 @@ else()
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/adan_build/${CMAKE_INSTALL_MANIFEST}"
+  file(WRITE "/home/bbquiz/proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/adan_build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

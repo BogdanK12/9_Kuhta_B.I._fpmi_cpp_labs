@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/contrib/catch/catch_main.cpp" "CMakeFiles/contrib_catch_main.dir/contrib/catch/catch_main.cpp.o" "gcc" "CMakeFiles/contrib_catch_main.dir/contrib/catch/catch_main.cpp.o.d"
+  "/home/bbquiz/proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/contrib/catch/catch_main.cpp" "CMakeFiles/contrib_catch_main.dir/contrib/catch/catch_main.cpp.o" "gcc" "CMakeFiles/contrib_catch_main.dir/contrib/catch/catch_main.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

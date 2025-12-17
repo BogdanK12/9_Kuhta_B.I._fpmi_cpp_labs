@@ -1,26 +1,26 @@
 [
 {
-  "directory": "/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/adan_build",
-  "command": "/run/current-system/sw/bin/c++  -I/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/contrib/catch  -Wall -Wextra -Wpedantic -g -std=gnu++17 -o CMakeFiles/contrib_catch_main.dir/contrib/catch/catch_main.cpp.o -c /home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/contrib/catch/catch_main.cpp",
-  "file": "/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/contrib/catch/catch_main.cpp",
+  "directory": "/home/bbquiz/proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/adan_build",
+  "command": "/usr/bin/c++  -I/home/bbquiz/proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/contrib/catch  -Wall -Wextra -Wpedantic -g -g -fsanitize=address,undefined,leak -fno-sanitize-recover=all -std=gnu++17 -o CMakeFiles/contrib_catch_main.dir/contrib/catch/catch_main.cpp.o -c /home/bbquiz/proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/contrib/catch/catch_main.cpp",
+  "file": "/home/bbquiz/proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/contrib/catch/catch_main.cpp",
   "output": "CMakeFiles/contrib_catch_main.dir/contrib/catch/catch_main.cpp.o"
 },
 {
-  "directory": "/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/adan_build/multiplication",
-  "command": "/run/current-system/sw/bin/c++  -I/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/multiplication -I/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/contrib/catch  -Wall -Wextra -Wpedantic -g -std=gnu++17 -o CMakeFiles/test_multiplication.dir/test.cpp.o -c /home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/multiplication/test.cpp",
-  "file": "/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/multiplication/test.cpp",
+  "directory": "/home/bbquiz/proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/adan_build/multiplication",
+  "command": "/usr/bin/c++  -I/home/bbquiz/proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/multiplication -I/home/bbquiz/proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/contrib/catch  -Wall -Wextra -Wpedantic -g -g -fsanitize=address,undefined,leak -fno-sanitize-recover=all -std=gnu++17 -o CMakeFiles/test_multiplication.dir/test.cpp.o -c /home/bbquiz/proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/multiplication/test.cpp",
+  "file": "/home/bbquiz/proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/multiplication/test.cpp",
   "output": "multiplication/CMakeFiles/test_multiplication.dir/test.cpp.o"
 },
 {
-  "directory": "/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/adan_build/vector",
-  "command": "/run/current-system/sw/bin/c++  -I/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/vector -I/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/contrib/catch  -Wall -Wextra -Wpedantic -g -std=gnu++17 -o CMakeFiles/test_vector.dir/vector_impl.cpp.o -c /home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/vector/vector_impl.cpp",
-  "file": "/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/vector/vector_impl.cpp",
+  "directory": "/home/bbquiz/proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/adan_build/vector",
+  "command": "/usr/bin/c++  -I/home/bbquiz/proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/vector -I/home/bbquiz/proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/contrib/catch  -Wall -Wextra -Wpedantic -g -g -fsanitize=address,undefined,leak -fno-sanitize-recover=all -std=gnu++17 -o CMakeFiles/test_vector.dir/vector_impl.cpp.o -c /home/bbquiz/proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/vector/vector_impl.cpp",
+  "file": "/home/bbquiz/proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/vector/vector_impl.cpp",
   "output": "vector/CMakeFiles/test_vector.dir/vector_impl.cpp.o"
 },
 {
-  "directory": "/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/adan_build/vector",
-  "command": "/run/current-system/sw/bin/c++  -I/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/vector -I/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/contrib/catch  -Wall -Wextra -Wpedantic -g -std=gnu++17 -o CMakeFiles/test_vector.dir/test.cpp.o -c /home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/vector/test.cpp",
-  "file": "/home/bbquiz/Proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/vector/test.cpp",
+  "directory": "/home/bbquiz/proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/adan_build/vector",
+  "command": "/usr/bin/c++  -I/home/bbquiz/proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/vector -I/home/bbquiz/proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/contrib/catch  -Wall -Wextra -Wpedantic -g -g -fsanitize=address,undefined,leak -fno-sanitize-recover=all -std=gnu++17 -o CMakeFiles/test_vector.dir/test.cpp.o -c /home/bbquiz/proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/vector/test.cpp",
+  "file": "/home/bbquiz/proga/OIMP/9_Kuhta_B.I._fpmi_cpp_labs/semester_1/lab7_class_vector/vector/test.cpp",
   "output": "vector/CMakeFiles/test_vector.dir/test.cpp.o"
 }
 ]

@@ -1,1 +1,1 @@
-/run/current-system/sw/bin/c++  -Wall -Wextra -Wpedantic -g -Wl,--dependency-file=CMakeFiles/test_vector.dir/link.d CMakeFiles/test_vector.dir/vector_impl.cpp.o CMakeFiles/test_vector.dir/test.cpp.o -o ../test_vector  ../libcontrib_catch_main.a
+/usr/bin/c++  -Wall -Wextra -Wpedantic -g -g -fsanitize=address,undefined,leak -fno-sanitize-recover=all -Wl,--dependency-file=CMakeFiles/test_vector.dir/link.d CMakeFiles/test_vector.dir/vector_impl.cpp.o CMakeFiles/test_vector.dir/test.cpp.o -o ../test_vector  ../libcontrib_catch_main.a
