@@ -28,7 +28,5 @@ int main() {
     std::cout << "t1 < t2: " << std::boolalpha << (t1 < t2) <<'\n';
     std::cout << "t2 < t1: " << std::boolalpha << (t2 < t1) << '\n';
 
-
-
     return EXIT_SUCCESS;
 }
