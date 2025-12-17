@@ -96,16 +96,6 @@
 //   }
 // }
 
-// finds words index
-long long find_word_index(const std::string &text, const std::string &word)
-{
-  return text.find(word);
-}
-
-void replace_words(std::string &text, const std::string &word1,
-                   const std::string &word2, long long index) {
-  text.replace(index, word1.length(), word2);
-}
 
 int main() {
   const std::string file_name = "input.txt";
@@ -117,14 +107,19 @@ int main() {
   std::string word1, word2;
   in >> word1 >> word2;
   std::string text;
-  getline(in, text);
+  char c;
+  while(in.get(c))
+  {
+    text += c;
+  }
   in.close();
   std::cout << "----------------------------------------" << std::endl << text << std::endl << "----------------------------------------" << std::endl;
-  long long index1 = find_word_index(text, word1);
-  long long index2 = find_word_index(text, word2);
+  long long index1 = text.find(word1);
+  long long index2 = text.find(word2);
   std::cout << " " << word1 << " <-> " << word2 << std::endl;
-  replace_words(text, word1, word2, index1);
-  replace_words(text, word2, word1, index2 -(word1.length() - word2.length()));
+  int diff = word2.length() -word1.length();
+  text.replace(index1, word1.length(), word2);
+  text.replace(index2 + diff, word2.length(), word1);
   std::cout << "----------------------------------------" << std::endl << text << std::endl << "----------------------------------------";
   std::ofstream out("output.txt");
   out << text;

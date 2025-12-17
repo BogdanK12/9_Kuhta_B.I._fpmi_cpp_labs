@@ -62,18 +62,21 @@ void replaceWords(std::string& text, std::string word1, std::string word2, int i
 
 int main(){
   std::ofstream outf("output.txt");
-  std::ifstream inf("input.txt");
-  if(!std::outf)
+  std::ifstream fin("input.txt");
+  if(!outf)
   {
     std::cout << "There is some bug.";
     std::exit(1);
   }
-  fin >> string1;
-  fin >> string2; 
-  std::string word1, word2, textInput;
-  std::cout << "Input your words: ";
-  std::cin >> word1 >> word2;
-  std::getline(std::cin, textInput);
+  std::string word1, word2;
+  fin >> word1;
+  fin >> word2; 
+  std::string textInput;
+  char c;
+  while(fin.get(c))
+  {
+    textInput += c;
+  }
   if((word1.length() > textInput.length()) || (word2.length() > textInput.length())){
     std::cout << "Word must be longer than text!";
     std::exit(52);
@@ -89,6 +92,6 @@ int main(){
   if(exist2){
       replaceWords(textInput, word2, word1, index2 + diff, diff);
   }
-  std::cout << "New text is: " << textInput;
+  outf << textInput;
   return 0;
 }
