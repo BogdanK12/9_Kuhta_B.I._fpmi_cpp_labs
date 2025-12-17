@@ -95,10 +95,24 @@
 //     }
 //   }
 // }
+void check_file(const std::string& filename)
+{
+  std::fstream in(filename);
+  if(!in.is_open())
+  {
+    throw "There is problem with your file.";
+  }
+  if(in.peek() == std::ifstream::traits_type::eof())
+  {
+    throw "Your file is empty.";
+  }
+}
 
 
 int main() {
   const std::string file_name = "input.txt";
+  try{check_file(file_name);}
+  catch(std::string problem){ std::cout << problem;}
   std::fstream in(file_name);
   if (!in.is_open()) {
     std::cout << "There is some problem with your file. ";
