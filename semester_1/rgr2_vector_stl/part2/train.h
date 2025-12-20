@@ -27,6 +27,8 @@ private:
 
 public:
     Train(size_t id, std::string type_string, std::string destination, std::time_t dis_time, std::time_t travel_time);
+    Train(size_t id, TrainType type, std::string destination, std::time_t dis_time, std::time_t travel_time);
+
     Train() = default;
 
     TrainId get_id();
@@ -34,20 +36,35 @@ public:
     std::string get_destination();
     std::time_t get_dispatch_time();
     std::time_t get_travelling_time();
+
+    void print(std::ostream& out);
+    void print_short(std::ostream& out);
+    void print_short_with_full_time(std::ostream& out);
 };
+void check_file(const std::string& file_name);
 
-Train parse_train(std::string train_string);
+Train parse_train(const std::string& train_string);
 
-std::vector<Train> parse_file(std::string file_name);
+Train generate_train(const std::vector<std::string> destinations, const std::vector<TrainType> types, std::mt19937& gen);
 
-void search_by_dispatch_time(std::pmr::vector<Train>& vec);
+std::vector<std::string> parse_words(const std::string& text, const std::string& delimeters);
 
-void print_from_interval(std::vector<Train>& vec, std::time_t start_time, std::time_t end_time);
+std::vector<Train> parse_file(const std::string& file_name);
 
-Train find_fastest_to_destination(std::vector<Train>& vec, std::string destination);
+void sort_by_dispatch_time(std::vector<Train>& vec);
 
-void print_with_certain_destination(std::vector<Train>& vec, std::string destination);
+void print_from_interval(const std::vector<Train>& vec, std::time_t start_time, std::time_t end_time);
 
-void print_with_certain_destination_and_type(std::vector<Train> &vec, std::string destination, TrainType type);
+Train find_fastest_to_destination(const std::vector<Train>& vec, const std::string& destination);
 
-Train find_fastest_to_destination(std::vector<Train>& vec, std::string destination);
+void print_with_certain_destination(const std::vector<Train>& vec, const std::string& destination);
+
+void print_with_certain_destination_and_type(const std::vector<Train> &vec,const std::string& destination, TrainType type);
+
+Train find_fastest_to_destination(const std::vector<Train>& vec, const std::string& destination);
+
+void print_vector(const std::vector<Train>& vec, std::ostream& out);
+
+void print_vector_short(const std::vector<Train>& vec, std::ostream& out);
+
+void print_vector_short_time(const std::vector<Train>& vec, std::ostream& out);

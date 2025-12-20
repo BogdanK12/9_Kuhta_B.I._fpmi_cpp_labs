@@ -4,6 +4,7 @@
 #include <chrono>
 #include <iostream>
 #include <iomanip>
+#include <ostream>
 
 namespace time_utility {
 
@@ -41,6 +42,12 @@ void PrintTime(const std::time_t& time_to_print) {
 
     std::tm* ltime = std::localtime(&time_to_print);
     std::cout << std::asctime(ltime);
+}
+
+void print_time(const std::time_t& time, std::ostream& out)
+{
+    std::tm* ltime = std::localtime(&time);
+    out << std::asctime(ltime);
 }
 
 }  // namespace time_utility

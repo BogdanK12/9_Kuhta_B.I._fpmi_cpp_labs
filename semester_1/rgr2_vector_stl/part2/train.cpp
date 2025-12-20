@@ -5,11 +5,15 @@
 #include <iostream>
 #include <istream>
 #include <ostream>
+#include <random>
+#include <regex>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 #include <utility>
 #include <vector>
 #include "train.h"
+#include <sys/types.h>
 #include "time_utility.h"
 #include <map>
 
@@ -31,15 +35,39 @@ Train::Train(size_t id, std::string type_string, std::string destination, std::t
         this->type_ = it->second;
       } else
       {
-        throw "There is no such type. ";  
+        throw std::runtime_error("There is no such type: " + type_string);  
       }
   }
+
+Train::Train(size_t id, TrainType type, std::string destination, std::time_t dis_time, std::time_t travel_time)
+  : id_(id), type_(type), destination_(destination), dispatch_time_(dis_time), travelling_time_(travel_time)
+  {}
+
+Train generate_train(const std::vector<std::string> destinations, const std::vector<TrainType> types, std::mt19937& gen)
+{
+  std::uniform_int_distribution<uint> destination_gen(0, destinations.size() - 1);
+  std::uniform_int_distribution<uint> type_gen(0, types.size() - 1);
+  size_t max = - 1;
+  std::uniform_int_distribution<uint> id_gen(0, max);
+  size_t id = id_gen(gen);
+  std::string dest = destinations[destination_gen(gen)];
+  TrainType type = types[type_gen(gen)];
+  std::time_t t1 = GenerateRandomTime(gen);
+  std::time_t t2 = GenerateRandomTime(gen);
+
+  return Train(id, type, dest, t1, t2);
+}
   
 
 // getter for dispatch time
 std::time_t Train::get_dispatch_time()
 {
   return this->dispatch_time_;
+}
+
+std::time_t Train::get_travelling_time()
+{
+  return this->travelling_time_;
 }
 
 size_t Train::get_id()
@@ -57,7 +85,7 @@ std::string Train::get_destination()
   return this->destination_;
 }
 
-Train parse_train(std::string train_string)
+Train parse_train(const std::string& train_string)
 {
   std::istringstream in(train_string);
   size_t id; 
@@ -95,6 +123,8 @@ std::string type_to_string(TrainType type)
       return "SUBWAY";
     case TrainType::SPECIALIZED:
       return "SPECIALIZED";
+    default:
+      throw std::runtime_error("There is no such type. ");
   }
 }
 
@@ -103,11 +133,34 @@ void Train::print(std::ostream& out)
   out << "Train Id: " << this->get_id() << ". ";
   out << "Train type: " << type_to_string(this->get_type()) << ". ";
   out << "Train destination: " << this->get_destination() << ". ";
-  out << "Train dispatch time: " << this->get_dispatch_time() << ". ";
-  out << "Train travelling time: " << this->get_travelling_time() << ". ";  
+  // out << "Train dispatch time: " << this->get_dispatch_time() << ". ";
+  time_utility::print_time(dispatch_time_, out);
+  // out << "Train travelling time: " << this->get_travelling_time() << ". ";  
+  out << "Train travelling time: ";
+  time_utility::print_time(travelling_time_, out);
+  out << ". ";
 }
 
-void print_from_interval(std::vector<Train>& vec, std::time_t start_time, std::time_t end_time)
+void Train::print_short(std::ostream& out)
+{
+  out << this->get_id() << " ";
+  out << type_to_string(this->get_type()) << " ";
+  out << this->get_destination() << " ";
+  out << this->get_dispatch_time() << " ";
+  out << this->get_travelling_time() << " "; 
+}
+
+void Train::print_short_with_full_time(std::ostream& out)
+{
+  out << this->get_id() << " ";
+  out << type_to_string(this->get_type()) << " ";
+  out << this->get_destination() << " ";
+  time_utility::print_time(dispatch_time_, out);
+  out << " ";
+  time_utility::print_time(travelling_time_, out);
+}
+
+void print_from_interval(const std::vector<Train>& vec, std::time_t start_time, std::time_t end_time)
 {
   for(Train train: vec)
   {
@@ -118,7 +171,7 @@ void print_from_interval(std::vector<Train>& vec, std::time_t start_time, std::t
   }
 }
 
-std::vector<Train> trains_with_certain_destination(std::vector<Train>& vec, std::string destination)
+std::vector<Train> trains_with_certain_destination(const std::vector<Train>& vec, const std::string& destination)
 {
   std::vector<Train> vec_destination;
   for(Train train: vec)
@@ -128,9 +181,10 @@ std::vector<Train> trains_with_certain_destination(std::vector<Train>& vec, std:
       vec_destination.push_back(train);
     }
   }
+  return vec_destination;
 }
 
-void print_with_certain_destination(std::vector<Train>& vec, std::string destination)
+void print_with_certain_destination(const std::vector<Train>& vec, const std::string& destination)
 {
   std::vector<Train> vec_dest = trains_with_certain_destination(vec, destination);
   if(vec_dest.size() == 0)
@@ -144,7 +198,7 @@ void print_with_certain_destination(std::vector<Train>& vec, std::string destina
   }
 }
 
-void print_with_certain_destination_and_type(std::vector<Train> &vec, std::string destination, TrainType type)
+void print_with_certain_destination_and_type(const std::vector<Train> &vec, const std::string& destination, TrainType type)
 {
   uint count = 0;
   for(Train train: vec)
@@ -157,7 +211,7 @@ void print_with_certain_destination_and_type(std::vector<Train> &vec, std::strin
   if(count == 0){std::cout << "There are no such trains. \n";}
 }
 
-Train find_fastest_to_destination(std::vector<Train>& vec, std::string destination)
+Train find_fastest_to_destination(const std::vector<Train>& vec,const std::string& destination)
 {
   if(vec.empty()){ throw "There are no trains. ";}
   std::vector<Train> vec_dest = trains_with_certain_destination(vec, destination);
@@ -174,20 +228,35 @@ Train find_fastest_to_destination(std::vector<Train>& vec, std::string destinati
   return fastest;
 }
 
-void check_file(std::string file_name)
+void check_file(const std::string& file_name)
 {
   std::ifstream in(file_name);
   if(!in.is_open())
   {
-    throw "Your file cannot be opened. ";
+    throw std::runtime_error("Your file cannot be opened: " + file_name);
   }
   if(in.peek() == std::ifstream::traits_type::eof())
   {
-    throw "This file is empty. ";
+    throw std::runtime_error("This file is empty: " + file_name);
   }
 }
 
-std::vector<Train> parse_file(std::string file_name)
+std::vector<std::string> parse_words(const std::string& text, const std::string& delimeters)
+{
+  std::vector<std::string> retval;
+  size_t pos1, pos2;
+  pos1 = text.find_first_not_of(delimeters);
+  while(pos1 != std::string::npos)
+  {
+    pos2 = text.find_first_of(delimeters, pos1);
+    retval.push_back(text.substr(pos1, pos2 - pos1));
+    if(pos2 == std::string::npos){ break;}
+    pos1 = text.find_first_not_of(delimeters, pos2);
+  }
+  return retval;
+}
+
+std::vector<Train> parse_file(const std::string& file_name)
 {
   check_file(file_name);
   std::ifstream in(file_name);
@@ -199,3 +268,31 @@ std::vector<Train> parse_file(std::string file_name)
   }
   return vec;
 }
+
+void print_vector(const std::vector<Train>& vec, std::ostream& out)
+{
+  for(Train train: vec)
+  {
+    train.print(out);
+    out << '\n';
+  }
+}
+
+void print_vector_short(const std::vector<Train>& vec, std::ostream& out)
+{
+  for(Train train: vec)
+  {
+    train.print_short_with_full_time(out);
+    out << '\n';
+  }
+}
+
+void print_vector_short_time(const std::vector<Train>& vec, std::ostream& out)
+{
+  for(Train train: vec)
+  {
+    train.print_short(out);
+    out << '\n';
+  }
+}
+

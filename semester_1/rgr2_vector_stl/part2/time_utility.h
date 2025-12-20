@@ -42,5 +42,8 @@ std::time_t GenerateRandomTime(std::mt19937& generator);
  */
 void PrintTime(const std::time_t& time_to_print);
 
+void print_time(const std::time_t& time, std::ostream& out);
+
+
 
 }  // namespace time_utility
