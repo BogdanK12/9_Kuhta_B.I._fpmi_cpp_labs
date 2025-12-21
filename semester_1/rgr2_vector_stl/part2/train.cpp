@@ -6,7 +6,6 @@
 #include <istream>
 #include <ostream>
 #include <random>
-#include <regex>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -53,34 +52,35 @@ Train generate_train(const std::vector<std::string> destinations, const std::vec
   std::string dest = destinations[destination_gen(gen)];
   TrainType type = types[type_gen(gen)];
   std::time_t t1 = GenerateRandomTime(gen);
-  std::time_t t2 = GenerateRandomTime(gen);
+  // const std::time_t day =  
+  std::time_t t2 = (GenerateRandomTime(gen));
 
   return Train(id, type, dest, t1, t2);
 }
   
 
 // getter for dispatch time
-std::time_t Train::get_dispatch_time()
+std::time_t Train::get_dispatch_time() const
 {
   return this->dispatch_time_;
 }
 
-std::time_t Train::get_travelling_time()
+std::time_t Train::get_travelling_time() const
 {
   return this->travelling_time_;
 }
 
-size_t Train::get_id()
+size_t Train::get_id() const
 {
   return this->id_;
 }
 
-TrainType Train::get_type()
+TrainType Train::get_type() const
 {
   return this->type_;
 }
 
-std::string Train::get_destination()
+std::string Train::get_destination() const
 {
   return this->destination_;
 }
@@ -99,11 +99,11 @@ void sort_by_dispatch_time(std::vector<Train>& vec)
 {
   for(size_t i = 0; i < vec.size(); ++i)
   {
-    for(size_t j = 1; i < vec.size() - i; ++j)
+    for(size_t j = 1; j < vec.size() - i; ++j)
     {
-      if(vec.at(i - 1).get_dispatch_time() > vec.at(i).get_dispatch_time())
+      if(vec[j - 1].get_dispatch_time() > vec[j].get_dispatch_time())
       {
-        std::swap(vec.at(i - 1), vec.at(i + 1));
+        std::swap(vec.at(j - 1), vec.at(j));
       }
     }
   }
@@ -128,7 +128,7 @@ std::string type_to_string(TrainType type)
   }
 }
 
-void Train::print(std::ostream& out)
+void Train::print(std::ostream& out) const
 {
   out << "Train Id: " << this->get_id() << ". ";
   out << "Train type: " << type_to_string(this->get_type()) << ". ";
@@ -138,10 +138,9 @@ void Train::print(std::ostream& out)
   // out << "Train travelling time: " << this->get_travelling_time() << ". ";  
   out << "Train travelling time: ";
   time_utility::print_time(travelling_time_, out);
-  out << ". ";
 }
 
-void Train::print_short(std::ostream& out)
+void Train::print_short(std::ostream& out) const
 {
   out << this->get_id() << " ";
   out << type_to_string(this->get_type()) << " ";
@@ -150,7 +149,7 @@ void Train::print_short(std::ostream& out)
   out << this->get_travelling_time() << " "; 
 }
 
-void Train::print_short_with_full_time(std::ostream& out)
+void Train::print_short_with_full_time(std::ostream& out) const
 {
   out << this->get_id() << " ";
   out << type_to_string(this->get_type()) << " ";
@@ -160,16 +159,36 @@ void Train::print_short_with_full_time(std::ostream& out)
   time_utility::print_time(travelling_time_, out);
 }
 
-void print_from_interval(const std::vector<Train>& vec, std::time_t start_time, std::time_t end_time)
+void print_from_interval(const std::vector<Train>& vec, std::time_t start_time, std::time_t end_time, std::ostream& out)
 {
-  for(Train train: vec)
+  // const std::time_t sec_in_year = 365 * 24 * 60 * 60 * 55;
+  for(const Train& train: vec)
   {
-    if(train.get_dispatch_time() <= end_time && train.get_dispatch_time() >= start_time)
+    if((train.get_dispatch_time() >= start_time) && train.get_dispatch_time() <= end_time)
     {
-      train.print(std::cout);
+      train.print(out);
     }
   }
 }
+
+// void print_from_interval(const std::vector<Train>& vec, std::time_t start_time, std::time_t end_time, std::ostream& out)
+// {
+//   const std::time_t day = 24 * 3600;
+//   size_t count{0};
+//   for (const Train& train : vec)
+//   {
+//     const std::time_t dispatch = train.get_dispatch_time();
+//     const std::time_t arrival  = dispatch + (train.get_travelling_time() % day);
+
+//     if (dispatch >= start_time && arrival <= end_time)
+//     {
+//       train.print_short_with_full_time(out);
+//       ++count;
+//     }
+//   }
+//   out << "\nThere are " << count << " trains in this interval.";
+// }
+ 
 
 std::vector<Train> trains_with_certain_destination(const std::vector<Train>& vec, const std::string& destination)
 {
@@ -184,8 +203,9 @@ std::vector<Train> trains_with_certain_destination(const std::vector<Train>& vec
   return vec_destination;
 }
 
-void print_with_certain_destination(const std::vector<Train>& vec, const std::string& destination)
+void print_with_certain_destination(const std::vector<Train>& vec, const std::string& destination, std::ostream& out)
 {
+  if(vec.empty()){ throw std::runtime_error("There are no trains. ");}
   std::vector<Train> vec_dest = trains_with_certain_destination(vec, destination);
   if(vec_dest.size() == 0)
   {
@@ -194,35 +214,38 @@ void print_with_certain_destination(const std::vector<Train>& vec, const std::st
   }
   for(Train train: vec_dest)
   {
-    train.print(std::cout);
+    train.print_short_with_full_time(out);
   }
 }
 
-void print_with_certain_destination_and_type(const std::vector<Train> &vec, const std::string& destination, TrainType type)
+void print_with_certain_destination_and_type(const std::vector<Train> &vec, const std::string& destination, TrainType type, std::ostream& out)
 {
-  uint count = 0;
+  if(vec.empty()){ throw std::runtime_error("There are no trains. ");}
+  size_t count{0};
   for(Train train: vec)
   {
     if(train.get_destination() == destination && train.get_type() == type)
     {
-      train.print(std::cout);
+      train.print(out);
+      ++count; 
     }
   }
-  if(count == 0){std::cout << "There are no such trains. \n";}
+  if(count == 0){out << "There are no trains with this destination. \n";}
 }
 
 Train find_fastest_to_destination(const std::vector<Train>& vec,const std::string& destination)
 {
-  if(vec.empty()){ throw "There are no trains. ";}
+  if(vec.empty()){ throw std::runtime_error("There are no trains. ");}
   std::vector<Train> vec_dest = trains_with_certain_destination(vec, destination);
-  if(vec_dest.empty()){ throw "There are no trains with such destination. \n";}
-  Train fastest = vec_dest.at(0);
+  if(vec_dest.empty()){ throw std::runtime_error("There are no trains with such destination. \n");}
+  Train fastest = vec_dest[0];
   std::time_t fastest_time = fastest.get_travelling_time();
-  for(Train train: vec_dest)
+  for(const Train& train: vec_dest)
   {
     if(train.get_travelling_time() < fastest_time)
     {
       fastest = train;
+      fastest_time = train.get_travelling_time();
     }
   }
   return fastest;
@@ -278,16 +301,16 @@ void print_vector(const std::vector<Train>& vec, std::ostream& out)
   }
 }
 
-void print_vector_short(const std::vector<Train>& vec, std::ostream& out)
+void print_vector_short_with_full_time(const std::vector<Train>& vec, std::ostream& out)
 {
   for(Train train: vec)
   {
     train.print_short_with_full_time(out);
-    out << '\n';
+    // out << '\n';
   }
 }
 
-void print_vector_short_time(const std::vector<Train>& vec, std::ostream& out)
+void print_vector_short(const std::vector<Train>& vec, std::ostream& out)
 {
   for(Train train: vec)
   {

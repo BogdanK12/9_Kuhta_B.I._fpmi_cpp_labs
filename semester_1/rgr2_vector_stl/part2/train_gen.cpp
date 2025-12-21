@@ -41,7 +41,9 @@ int main(int argc, char* argv[])
   print_vector_short(random_trains, out1);
   out1.close();
 
+  sort_by_dispatch_time(random_trains);
+
   std::ofstream out2(trains_file_full_time);
-  print_vector_short(random_trains, out2);
+  print_vector_short_with_full_time(random_trains, out2);
   out2.close();
 }

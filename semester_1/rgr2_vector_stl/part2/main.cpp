@@ -48,8 +48,6 @@ int main() {
     using namespace time_utility;
     try{
 
-    Train trtr{};
-
     std::time_t t1 = SetTime(12, 23);
     try {
         t1 = SetTime(12, 60);
@@ -58,7 +56,7 @@ int main() {
     }
 
     std::time_t t2 = GenerateRandomTime(generator);
-    if(t1 < t2)
+    if(t2 < t1)
     {
         std::time_t temp = t2;
         t2 = t1;
@@ -74,18 +72,29 @@ int main() {
     std::cout << std::endl;
 
     std::vector<Train> trains = parse_file(trains_file);
-    // for(Train train: trains)
-    // {
-    //     train.print(std::cout);
-    //     std::cout << '\n';
-    // }
+    // print_vector_short(trains, std::cout);
     std::cout << "Start time is: ";
     PrintTime(t2);
     std::cout << "End time is: ";
+
     PrintTime(t1);
+    std::cout << "-------------------------------------\n";
     std::cout << "Trains from this interval: \n";
-    print_from_interval(trains, t1, t2);
-    
+    print_from_interval(trains, t1, t2, std::cout);
+
+    std::cout << "\n-------------------------------------\n";
+    std::cout << "Trains goind to Minsk: \n";
+    print_with_certain_destination(trains, "Minsk", std::cout);
+
+    std::cout << "-------------------------------------\n";
+    std::cout << "Specialized trains that go to Berlin: \n";
+    print_with_certain_destination_and_type(trains, "Berlin", TrainType::SPECIALIZED, std::cout);
+
+    std::cout << "-------------------------------------\n";
+    Train fastest_to_Grodno = find_fastest_to_destination(trains, "Grodno");
+    std::cout << "Fastest train to Grodno is: ";
+    fastest_to_Grodno.print(std::cout);
+        
     } catch(std::exception& problem)
     {
         std::cerr << problem.what();
