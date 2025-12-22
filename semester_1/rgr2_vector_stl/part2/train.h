@@ -41,6 +41,9 @@ public:
     void print_short(std::ostream& out) const;
     void print_short_with_full_time(std::ostream& out) const;
 };
+
+TrainType string_to_type(const std::string& type_string);
+
 void check_file(const std::string& file_name);
 
 Train parse_train(const std::string& train_string);

@@ -16,27 +16,30 @@
 #include "time_utility.h"
 #include <map>
 
+TrainType string_to_type(const std::string& type_string)
+{
+  TrainType retval;
+  static const std::map<std::string, TrainType> type_map = {
+    {"PASSENGER", TrainType::PASSENGER},
+    {"FREIGHT",   TrainType::FREIGHT},
+    {"HIGH_SPEED", TrainType::HIGH_SPEED},
+    {"SUBWAY",    TrainType::SUBWAY},
+    {"SPECIALIZED", TrainType::SPECIALIZED}};
+  
+  std::map<std::string, TrainType>::const_iterator it = type_map.find(type_string);
+  if (it != type_map.end())
+  {
+    retval = it->second;
+  } else
+  {
+    throw std::runtime_error("There is no such type: " + type_string);  
+  }
+  return retval;
+}
 
 Train::Train(size_t id, std::string type_string, std::string destination, std::time_t dis_time, std::time_t travel_time)
-  : id_(id), destination_(destination), dispatch_time_(dis_time), travelling_time_(travel_time)
-  {
-
-    static const std::map<std::string, TrainType> type_map = {
-      {"PASSENGER", TrainType::PASSENGER},
-      {"FREIGHT",   TrainType::FREIGHT},
-      {"HIGH_SPEED", TrainType::HIGH_SPEED},
-      {"SUBWAY",    TrainType::SUBWAY},
-      {"SPECIALIZED", TrainType::SPECIALIZED}};
-
-      std::map<std::string, TrainType>::const_iterator it = type_map.find(type_string);
-      if (it != type_map.end())
-      {
-        this->type_ = it->second;
-      } else
-      {
-        throw std::runtime_error("There is no such type: " + type_string);  
-      }
-  }
+  : id_(id), type_(string_to_type(type_string)), destination_(destination), dispatch_time_(dis_time), travelling_time_(travel_time)
+  {}
 
 Train::Train(size_t id, TrainType type, std::string destination, std::time_t dis_time, std::time_t travel_time)
   : id_(id), type_(type), destination_(destination), dispatch_time_(dis_time), travelling_time_(travel_time)
@@ -162,9 +165,10 @@ void Train::print_short_with_full_time(std::ostream& out) const
 void print_from_interval(const std::vector<Train>& vec, std::time_t start_time, std::time_t end_time, std::ostream& out)
 {
   // const std::time_t sec_in_year = 365 * 24 * 60 * 60 * 55;
+  if(end_time < start_time){ throw std::runtime_error("End of interval is less than start. ");}
   for(const Train& train: vec)
   {
-    if((train.get_dispatch_time() >= start_time) && train.get_dispatch_time() <= end_time)
+    if(train.get_dispatch_time() >= start_time && train.get_dispatch_time() <= end_time)
     {
       train.print(out);
     }
@@ -209,7 +213,7 @@ void print_with_certain_destination(const std::vector<Train>& vec, const std::st
   std::vector<Train> vec_dest = trains_with_certain_destination(vec, destination);
   if(vec_dest.size() == 0)
   {
-    std::cout << "There are no trains with such destination. \n";
+    out << "There are no trains with such destination. \n";
     return;
   }
   for(Train train: vec_dest)
