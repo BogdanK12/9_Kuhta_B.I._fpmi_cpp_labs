@@ -1,11 +1,49 @@
 #include "library.h"
+#include <cassert>
 #include <cstddef>
 #include <cstdio>
 #include <exception>
 #include <iostream>
 #include <random>
+#include <stdexcept>
 #include <string>
 #include <vector>
+
+void clear_buffer() {
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+void input(size_t& a)
+{
+    if(!(std::cin >> a))
+    {
+        throw std::runtime_error("It's not a number.");
+    }
+}
+
+book input_book(const std::string& delimiters)
+{
+    std::cout << "Print down idk, title(within double apostrophe), all authors with their first, last and father's names, publication year: \n";
+    size_t idk, publication_year;
+    std::string title_string, authors_string;
+    input(idk);
+    std::cin.ignore();
+    getline(std::cin, title_string);
+    getline(std::cin, authors_string);
+    input(publication_year);
+    std::cout << '\n';
+    clear_buffer();
+    return book(idk, convert_string_to_authors_list(authors_string, delimiters), title_string, publication_year);
+}
+
+author input_author()
+{
+    std::cout << "Print down last name, first name and father's name of an author: ";
+    std::string name1, name2, name3;
+    std::cin >> name1 >> name2 >> name3;
+    clear_buffer();
+    return author(name1, name2, name3);
+}
 
 int main() {
 
@@ -25,46 +63,58 @@ int main() {
     std::vector<std::string> names = parse_text_words(file_names, delimiters);
     std::vector<std::string> fathers_names = parse_text_words(files_fathers_names, delimiters);
 
+    std::cout << "------------------------------------\n";
     library rhs(library_gen(gen, last_names, names, fathers_names, titles));
     rhs.print(std::cout);
-    std::cout << '\n';
 
-    std::cout << "Print down idk, title(within double apostrophe), all authors with their first, last and father's names, publication year: \n";
-    size_t idk1, publication_year;
-    std::string title_string, authors_string;
-    std::cin >> idk1;
-    std::cin.ignore();
-    getline(std::cin, title_string);
-    getline(std::cin, authors_string);
-    std::cin >> publication_year;
-    rhs.add_book(book(idk1, convert_string_to_authors_list(authors_string, delimiters), title_string, publication_year));
+    std::cout << "------------------------------------\n";
+    rhs.add_book(input_book(delimiters));
     rhs.print(std::cout);
 
-    std::cout << "Print down idk, title(within double apostrophe), all authors with their first, last and father's names, publication year: \n";
-    size_t idk2, publication_year2;
-    std::string title_string2, authors_string2;
-    std::cin >> idk2;
-    std::cin.ignore();
-    getline(std::cin, title_string2);
-    getline(std::cin, authors_string2);
-    std::cin >> publication_year2;
-    rhs.delete_book(book(idk2, convert_string_to_authors_list(authors_string2, delimiters), title_string2, publication_year2));
+    std::cout << "\n------------------------------------\n";
+    rhs.delete_book(input_book(delimiters));
     rhs.print(std::cout);    
 
+    std::cout << "\n------------------------------------\n";
     std::cout << "Print down title of book you're searching for: ";
     std::string string_search;
-    std::cin >> string_search;
+    std::getline(std::cin, string_search);
     // string_search.erase(0, string_search.find_first_not_of(delimiters));
+    std::cout << '\n';
     library temp(rhs.search_by_title(string_search));
     temp.print(std::cout);
-    
-    std::cout << "Print down last name, first name and father's name of an author: ";
-    std::string name1, name2, name3;
-    std::cin >> name1 >> name2 >> name3;
-    author psycho(name1, name2, name3);
+
+    std::cout << "\n------------------------------------\n";
+    author psycho = input_author();
     library psycho_books(rhs.search_authors_books(psycho));
     psycho_books.print(std::cout);
 
+    std::cout << "\n------------------------------------\n";
+    book arg1 = input_book(delimiters);
+    std::list<book>::iterator it = rhs.search_book(arg1);
+    if(it != rhs.get_books_list().end())
+    {
+        author a1 = input_author();
+        rhs.delete_author_from_book(it, a1);
+        it->print(std::cout);    
+    } else
+    {
+        std::cerr << "Tried to acess non-existent book.";    
+    }
+
+    std::cout << "\n------------------------------------\n";
+    book arg2 = input_book(delimiters);
+    std::list<book>::iterator it2 = rhs.search_book(arg2);
+    if(it2 != rhs.get_books_list().end())
+    {
+        author a2 = input_author();
+        rhs.add_author_to_book(rhs.search_book(arg2), a2);
+        it2->print(std::cout);
+    } else
+    {
+        std::cerr << "Tried to acess non-existent book.";    
+    }
+    
     } catch (std::exception& err){
         std::cerr << err.what() << '\n';
     }

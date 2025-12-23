@@ -76,11 +76,16 @@ public:
 
   void add_book(const book& rhs);
   void delete_book(const book& rhs);
+  void delete_book(std::list<book>::iterator rhs);
   std::list<book>::iterator search_book(const std::string& rhs, std::list<book>::iterator begin);
   std::list<book>::const_iterator search_book(const std::string& rhs, std::list<book>::const_iterator begin);
+  std::list<book>::iterator search_book(const book& rhs);
   std::list<book> search_by_title(const std::string& title) const;
   std::list<book> search_authors_books(const author& rhs) const;
   void delete_book_by_author(const author& rhs);
+
+  void add_author_to_book(const std::list<book>::iterator it, const author& aut);
+  void delete_author_from_book(const std::list<book>::iterator it, const author& aut);
 };
 
 void add_book_to_list(std::list<book>& list, const book& book1);
