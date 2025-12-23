@@ -322,4 +322,3 @@ void print_vector_short(const std::vector<Train>& vec, std::ostream& out)
     out << '\n';
   }
 }
-
