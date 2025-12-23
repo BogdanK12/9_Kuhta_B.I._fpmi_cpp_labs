@@ -23,11 +23,12 @@ void input(size_t& a)
 
 book input_book(const std::string& delimiters)
 {
-    std::cout << "Print down idk, title(within double apostrophe), all authors with their first, last and father's names, publication year: \n";
+    std::cout << "Print down: \n1) idk, \n2)title, \n3)all authors with their first, last and father's names, \n4)publication year\n(each point on new line): \n";
     size_t idk, publication_year;
     std::string title_string, authors_string;
     input(idk);
-    std::cin.ignore();
+    clear_buffer();
+    // std::cin.ignore();
     getline(std::cin, title_string);
     getline(std::cin, authors_string);
     input(publication_year);
@@ -67,15 +68,15 @@ int main() {
     library rhs(library_gen(gen, last_names, names, fathers_names, titles));
     rhs.print(std::cout);
 
-    std::cout << "------------------------------------\n";
+    std::cout << "------------------------------------\n -----|Adding book|-----\n";
     rhs.add_book(input_book(delimiters));
     rhs.print(std::cout);
 
-    std::cout << "\n------------------------------------\n";
+    std::cout << "\n------------------------------------\n-----|Deleting book|-----\n";
     rhs.delete_book(input_book(delimiters));
     rhs.print(std::cout);    
 
-    std::cout << "\n------------------------------------\n";
+    std::cout << "\n------------------------------------\n-----|Searching book by title|-----\n";
     std::cout << "Print down title of book you're searching for: ";
     std::string string_search;
     std::getline(std::cin, string_search);
@@ -84,12 +85,12 @@ int main() {
     library temp(rhs.search_by_title(string_search));
     temp.print(std::cout);
 
-    std::cout << "\n------------------------------------\n";
+    std::cout << "\n------------------------------------\n-----|Search by author|-----\n";
     author psycho = input_author();
     library psycho_books(rhs.search_authors_books(psycho));
     psycho_books.print(std::cout);
 
-    std::cout << "\n------------------------------------\n";
+    std::cout << "\n------------------------------------\n-----|Deleting author from book|------\n";
     book arg1 = input_book(delimiters);
     std::list<book>::iterator it = rhs.search_book(arg1);
     if(it != rhs.get_books_list().end())
@@ -102,7 +103,7 @@ int main() {
         std::cerr << "Tried to acess non-existent book.";    
     }
 
-    std::cout << "\n------------------------------------\n";
+    std::cout << "\n------------------------------------\n-----|Adding author to a book|-----\n";
     book arg2 = input_book(delimiters);
     std::list<book>::iterator it2 = rhs.search_book(arg2);
     if(it2 != rhs.get_books_list().end())
