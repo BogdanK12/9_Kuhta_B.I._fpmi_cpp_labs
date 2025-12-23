@@ -12,15 +12,16 @@
 
 author::author(const std::string& last_name, const std::string& name, const std::string& fathers_name)
 : last_name_(last_name), name_(name), fathers_name_(fathers_name)
-{}
-
-author::author(const author& rhs)
-: last_name_(rhs.last_name_), name_(rhs.name_), fathers_name_(rhs.fathers_name_){}
+{
+  if(last_name.empty() || name.empty() || fathers_name.empty())
+  {
+    throw std::runtime_error("Missing parameters for adding an author.");
+  }
+}
 
 bool author::operator==(const author& rhs) const
 {
-  if(last_name_ == rhs.last_name_ && name_ == rhs.name_ && fathers_name_ == rhs.fathers_name_){ return true;}
-  else {return false;}
+  return (last_name_ == rhs.last_name_ && name_ == rhs.name_ && fathers_name_ == rhs.fathers_name_);
 }
 
 bool author::operator!=(const author& rhs) const
@@ -43,22 +44,37 @@ std::string author::get_fathers_name() const
   return fathers_name_;
 }
 
-std::list<author>::iterator find_author(const std::list<author>& list, const std::list<author>::iterator& begin, const author& rhs)
+std::list<author>::iterator book::find_author(std::list<author>::iterator begin, const author& rhs)
 {
   std::list<author>::iterator it = begin;
-  while(it != list.end())
+  while(it != authors_list_.end())
   {
     if(*it == rhs)
     {
       return it;
     }
+    ++it;
+  }
+  return it;
+}
+
+std::list<author>::const_iterator book::find_author(std::list<author>::const_iterator begin, const author& rhs) const
+{
+  std::list<author>::const_iterator it = begin;
+  while(it != authors_list_.end())
+  {
+    if(*it == rhs)
+    {
+      return it;
+    }
+    ++it;
   }
   return it;
 }
 
 void add_author_to_list(std::list<author>& list, const author& rhs)
 {
-  if(find_author(list, list.begin(), rhs) != list.end()){return;}
+  if(std::find(list.begin(), list.end(), rhs) != list.end()){return;}
   std::list<author>::iterator it = list.begin();
   while(it != list.end() && rhs.get_last_name() > it->get_last_name())
   {
@@ -67,7 +83,7 @@ void add_author_to_list(std::list<author>& list, const author& rhs)
   list.insert(it, rhs);
 }
 
-book::book(size_t idk, std::list<author>& authors, const std::string& title, int publication_year)
+book::book(size_t idk, const std::list<author>& authors, const std::string& title, size_t publication_year)
 : idk_(idk), authors_list_(authors), title_(title), publication_year_(publication_year)
 {}
 
@@ -75,7 +91,7 @@ book::book(size_t idk, std::list<author>& authors, const std::string& title, int
 // {
 //   std::istringstream in(input);
 //   std::size_t idk;
-  
+
 // }
 
 std::string book::get_title() const
@@ -88,20 +104,20 @@ size_t book::get_idk() const
   return this->idk_;
 }
 
-int book::get_publication_year() const
+size_t book::get_publication_year() const
 {
   return this->publication_year_;
 }
 
 void book::add_author(const author& rhs)
 {
-  if(find_author(authors_list_, authors_list_.begin(), rhs) != authors_list_.end()){ return;}
-  add_author_to_list(authors_list_, rhs);  
+  if(this->find_author(authors_list_.begin(), rhs) != authors_list_.end()){ return;}
+  add_author_to_list(authors_list_, rhs);
 }
 
 void book::delete_author(const author& rhs)
 {
-  authors_list_.erase(find_author(authors_list_, authors_list_.begin(), rhs));
+  authors_list_.erase(this->find_author(authors_list_.begin(), rhs));
 }
 
 std::list<author>& book::get_authors_list()
@@ -109,15 +125,33 @@ std::list<author>& book::get_authors_list()
   return authors_list_;
 }
 
-std::list<author> book::get_authors_list() const
+void print_authors(const std::list<author>& aut, std::ostream& out)
+{
+  for(const author& autt: aut)
+  {
+    out << autt.get_last_name() << " ";
+    out << autt.get_name() << " ";
+    out << autt.get_fathers_name() << ". ";
+  }
+}
+
+const std::list<author>& book::get_authors_list() const
 {
   return authors_list_;
+}
+
+void book::print(std::ostream& out) const
+{
+  out << idk_ << " ";
+  out << "\"" << title_ << "\" ";
+  print_authors(authors_list_, out);
+  out << " " << publication_year_ << ".";
 }
 
 bool book::operator== (const book& rhs) const
 {
   return(idk_ == rhs.idk_ && title_ == rhs.title_ && publication_year_ == rhs.publication_year_
-         && std::equal(authors_list_.begin(), authors_list_.end(), rhs.authors_list_.begin()));    
+         && std::equal(authors_list_.begin(), authors_list_.end(), rhs.authors_list_.begin()));
 }
 
 bool book::operator != (const book& rhs) const
@@ -134,19 +168,38 @@ std::list<book>::iterator find_book(const std::list<book>& list, const std::list
     {
       return it;
     }
+    ++it;
   }
   return it;
 }
 
 void add_book_to_list(std::list<book>& list, const book& book1)
 {
-  if(find_book(list, list.begin(), book1) != list.end()){return;}
+  if(find_book(list, list.begin(), book1) != list.end())
+  {
+    return;
+  }
   std::list<book>::iterator it = list.begin();
   while(it != list.end() && book1.get_title() > it->get_title())
   {
     ++it;
   }
   list.insert(it, book1);
+}
+
+std::list<book> library::search_by_title(const std::string& title) const
+{
+  std::list<book> retval;
+  std::list<book>::const_iterator it = books_list_.begin();
+  while(it != books_list_.end())
+  {
+    if(it->get_title() == title)
+    {
+      add_book_to_list(retval, *it);
+    }
+    ++it;
+  }
+  return retval;
 }
 
 library::library(const std::list<book>& list_of_books)
@@ -164,14 +217,14 @@ std::list<book>& library::get_books_list()
   return this->books_list_;
 }
 
-std::list<book> library::get_books_list() const
+const std::list<book>& library::get_books_list() const
 {
   return this->books_list_;
 }
 
 void library::add_book(const book& rhs)
 {
-  add_book_to_list(books_list_, rhs);  
+  add_book_to_list(books_list_, rhs);
 }
 
 void library::delete_book(const book& rhs)
@@ -189,33 +242,47 @@ void library::delete_book(const book& rhs)
   }
 }
 
-book& library::search_book(const std::string& rhs) 
+std::list<book>::iterator library::search_book(const std::string& rhs, std::list<book>::iterator begin)
 {
-  std::list<book>::iterator it = books_list_.begin();
+  std::list<book>::iterator it = begin;
   while(it != books_list_.end())
   {
     if(it->get_title() == rhs)
     {
-      return *it;
+      return it;
     }
     ++it;
   }
-  throw std::runtime_error("There is no such book. ");
+  return it;
 }
 
-const book& library::search_book(const std::string& rhs) const 
+std::list<book>::const_iterator library::search_book(const std::string& rhs, std::list<book>::const_iterator begin)
 {
-  std::list<book>::const_iterator it = books_list_.begin();
+  std::list<book>::const_iterator it = begin;
   while(it != books_list_.end())
   {
     if(it->get_title() == rhs)
     {
-      return *it;
+      return it;
     }
     ++it;
   }
-  throw std::runtime_error("There is no such book. ");
+  return it;
 }
+
+// std::list<author>::iterator book::find_author(std::list<author>::iterator& begin, const author& rhs)
+// {
+
+//   std::list<author>::iterator it = begin;
+//   while(it != authors_list_.end())
+//   {
+//     if(*it == rhs)
+//     {
+//       return it;
+//     }
+//   }
+//   return it;
+// }
 
 std::list<book> library::search_authors_books(const author& rhs) const
 {
@@ -223,14 +290,28 @@ std::list<book> library::search_authors_books(const author& rhs) const
   std::list<book>::const_iterator it = books_list_.begin();
   while(it != books_list_.end())
   {
-    if(find_author(it->get_authors_list(), it->get_authors_list().begin(), rhs) != it->get_authors_list().end())
+    if(it->find_author(it->get_authors_list().begin(), rhs) != it->get_authors_list().end())
     {
-      add_book_to_list(retval, *it);  
+      add_book_to_list(retval, *it);
     }
     ++it;
   }
   return retval;
 }
+
+// void library::delete_book_by_author(const author& rhs)
+// {
+//   std::list<book>::const_iterator it = books_list_.begin();
+//   while(it != books_list_.end())
+//   {
+//     if(find_author(it->get_authors_list(), it->get_authors_list().begin(), rhs) != it->get_authors_list().end())
+//     {
+//       add_book_to_list(retval, *it);
+//     }
+//     ++it;
+//   }
+//   return
+// }
 
 void check_file(const std::string& file_name)
 {
@@ -248,8 +329,8 @@ void check_file(const std::string& file_name)
 std::vector<std::string> parse_words(const std::string& text, const std::string& delimeters)
 {
   std::vector<std::string> retval;
-  size_t pos1, pos2;
-  pos1 = text.find_first_not_of(delimeters);
+  size_t pos1 = text.find_first_not_of(delimeters);
+  size_t pos2;
   while(pos1 != std::string::npos)
   {
     pos2 = text.find_first_of(delimeters, pos1);
@@ -266,7 +347,7 @@ author author_gen(std::mt19937 &gen, const std::vector<std::string>& author_last
   std::uniform_int_distribution<size_t> last_name_gen(0, author_last_name.size() - 1);
   std::uniform_int_distribution<size_t> name_gen(0, author_name.size() - 1);
   std::uniform_int_distribution<size_t> father_gen(0, author_father.size() - 1);
-  return author(author_father.at(last_name_gen(gen)), author_name.at(name_gen(gen)), author_father.at(father_gen(gen)));
+  return author(author_last_name.at(last_name_gen(gen)), author_name.at(name_gen(gen)), author_father.at(father_gen(gen)));
 }
 
 book book_gen(std::mt19937& gen, const std::vector<std::string>& author_last_name, const std::vector<std::string>& author_name,
@@ -275,8 +356,8 @@ book book_gen(std::mt19937& gen, const std::vector<std::string>& author_last_nam
   if(author_last_name.empty() || author_name.empty() || author_father.empty() || titles.empty()){ throw std::runtime_error("Generator error: no names/last names/father's names. ");}
   std::uniform_int_distribution<size_t> authors_count_gen(1, 6);
   std::uniform_int_distribution<size_t> title_gen(0, titles.size() - 1);
-  std::uniform_int_distribution<size_t> idk_gen(0, -1);
-  std::uniform_int_distribution<int> year_gen(-2000, 2025);
+  std::uniform_int_distribution<size_t> idk_gen(0, 100000);
+  std::uniform_int_distribution<size_t> year_gen(1450, 2025);
   std::list<author> authors;
   size_t count = authors_count_gen(gen);
   for(size_t i{0}; i < count; ++i)
@@ -303,32 +384,14 @@ std::list<book> generate_books_list(std::mt19937& gen, const std::vector<std::st
 library library_gen(std::mt19937 &gen, const std::vector<std::string>& author_last_name, const std::vector<std::string>& author_name,
                   const std::vector<std::string>& author_father, const std::vector<std::string> titles)
 {
-  return library(generate_books_list(gen, author_last_name, author_name, author_father, titles)); 
+  return library(generate_books_list(gen, author_last_name, author_name, author_father, titles));
 }
 
-void print_authors(const std::list<author>& aut, std::ostream& out)
+void library::print(std::ostream& out) const
 {
-  for(const author& autt: aut)
+  for(const book& book_in : books_list_)
   {
-    out << autt.get_last_name() << " ";
-    out << autt.get_name() << " ";
-    out << autt.get_fathers_name() << ". ";
-  }
-}
-
-void print_book(const book& rhs, std::ostream& out)
-{
-  out << rhs.get_idk() << " ";
-  out << rhs.get_title() << " ";
-  print_authors(rhs.get_authors_list(), out);
-  out << rhs.get_publication_year() << ". ";
-}
-
-void print_library(const library& rhs, std::ostream& out)
-{
-  for(const book& book_in : rhs.get_books_list())
-  {
-    print_book(book_in, out);
+    book_in.print(out);
     out << '\n';
   }
 }
@@ -343,6 +406,7 @@ std::vector<std::string> parse_text_lines(const std::string& file_name)
   {
     lines.push_back(line);
   }
+  in.close();
   return lines;
 }
 
@@ -361,4 +425,16 @@ std::vector<std::string> parse_text_words(const std::string& file_name, const st
     }
   }
   return lines;
+}
+
+std::list<author> convert_string_to_authors_list(const std::string& string_authors, const std::string& delimiters)
+{
+  std::list<author> retval;
+  std::vector<std::string> words = parse_words(string_authors, delimiters);
+  // if(words.size() % 3 != 0){ throw std::runtime_error("Not enough names.");}
+  for(size_t i{0}; i < words.size(); i += 3)
+  {
+    add_author_to_list(retval, author(words.at(i), words.at(i + 1), words.at(i + 2)));
+  }
+  return retval;
 }

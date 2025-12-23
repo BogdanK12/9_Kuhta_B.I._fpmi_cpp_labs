@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <list>
+#include <ostream>
 #include <random>
 #include <string>
 #include <vector>
@@ -16,7 +17,7 @@ private:
 public:
   author() = delete;
   author(const std::string& last_name, const std::string& name, const std::string& fathers_name);
-  author(const author& rhs);
+  author(const author& rhs) = default;
 
   ~author() = default;
     
@@ -33,21 +34,26 @@ class book
     size_t idk_;
     std::list<author> authors_list_;
     std::string title_;
-    int publication_year_;
+    size_t publication_year_;
 
   public:
-    book(size_t idk, std::list<author>& authors, const std::string& title, int publication_year);
+    book(size_t idk, const std::list<author>& authors, const std::string& title, size_t publication_year);
 
     ~book()=default;
 
     size_t get_idk() const;
     std::string get_title() const;
     std::list<author>& get_authors_list();
-    std::list<author> get_authors_list() const;
-    int get_publication_year() const;
+    const std::list<author>& get_authors_list() const;
+    size_t get_publication_year() const;
     
     void add_author(const author& add);
     void delete_author(const author& del);
+    std::list<author>::iterator find_author(std::list<author>::iterator begin, const author& rhs);
+    std::list<author>::const_iterator find_author(std::list<author>::const_iterator begin, const author& rhs) const;
+
+    void print(std::ostream& out) const;
+
     bool operator== (const book& rhs) const;
     bool operator!= (const book& rhs) const;
 };
@@ -64,21 +70,34 @@ public:
   ~library()=default;
 
   std::list<book>& get_books_list(); 
-  std::list<book> get_books_list() const;
+  const std::list<book>& get_books_list() const;
+
+  void print(std::ostream& out) const;
 
   void add_book(const book& rhs);
   void delete_book(const book& rhs);
-  book& search_book(const std::string& rhs);
-  const book& search_book(const std::string& rhs) const;
+  std::list<book>::iterator search_book(const std::string& rhs, std::list<book>::iterator begin);
+  std::list<book>::const_iterator search_book(const std::string& rhs, std::list<book>::const_iterator begin);
+  std::list<book> search_by_title(const std::string& title) const;
   std::list<book> search_authors_books(const author& rhs) const;
-  void delete_book_by_author(const book& rhs);
+  void delete_book_by_author(const author& rhs);
 };
+
+void add_book_to_list(std::list<book>& list, const book& book1);
+
+void check_file(const std::string& file_name);
+
 
 author author_gen(std::mt19937 &gen, const std::vector<std::string>& author_last_name, const std::vector<std::string>& author_name,
                   const std::vector<std::string>& author_father);
 
 book book_gen(std::mt19937& gen, const std::vector<std::string>& author_last_name, const std::vector<std::string>& author_name,
                   const std::vector<std::string>& author_father, const std::vector<std::string>& titles);
+
+std::list<book> generate_books_list(std::mt19937& gen, const std::vector<std::string>& author_last_name,
+                  const std::vector<std::string>& author_name,const std::vector<std::string>& author_father,
+                  const std::vector<std::string>& titles);
+
 library library_gen(std::mt19937 &gen, const std::vector<std::string>& author_last_name, const std::vector<std::string>& author_name,
                   const std::vector<std::string>& author_father, const std::vector<std::string> titles);
 
@@ -93,3 +112,6 @@ void print_authors(const std::list<author>& aut, std::ostream& out);
 void print_book(const book& rhs, std::ostream& out);
 
 void print_library(const library& rhs, std::ostream& out);
+
+std::list<author> convert_string_to_authors_list(const std::string& string_authors, const std::string& delimiters);
+
