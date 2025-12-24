@@ -19,6 +19,8 @@ public:
   author(const std::string& last_name, const std::string& name, const std::string& fathers_name);
   author(const author& rhs) = default;
 
+  author& operator=(const author& rhs) = default;
+
   ~author() = default;
     
   std::string get_last_name() const;
@@ -38,6 +40,8 @@ class book
 
   public:
     book(size_t idk, const std::list<author>& authors, const std::string& title, size_t publication_year);
+
+    book& operator=(const book& rhs) = default;
 
     ~book()=default;
 
@@ -66,6 +70,8 @@ public:
   library() = default;
   library(const std::list<book>& list_of_books);
   library(const library& rhs);
+
+  library& operator=(const library& rhs) = default;
 
   ~library()=default;
 
