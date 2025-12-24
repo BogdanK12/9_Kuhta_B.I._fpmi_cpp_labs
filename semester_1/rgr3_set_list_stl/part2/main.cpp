@@ -64,8 +64,12 @@ int main() {
     std::vector<std::string> names = parse_text_words(file_names, delimiters);
     std::vector<std::string> fathers_names = parse_text_words(files_fathers_names, delimiters);
 
+    std::cout << "Print down max size of your library: ";
+    size_t max_size;
+    input(max_size);
+    clear_buffer();
     std::cout << "------------------------------------\n";
-    library rhs(library_gen(gen, last_names, names, fathers_names, titles));
+    library rhs(library_gen(max_size, gen, last_names, names, fathers_names, titles));
     rhs.print(std::cout);
 
     std::cout << "------------------------------------\n -----|Adding book|-----\n";

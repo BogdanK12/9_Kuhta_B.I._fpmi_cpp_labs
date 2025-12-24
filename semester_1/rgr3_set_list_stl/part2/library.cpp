@@ -385,24 +385,22 @@ book book_gen(std::mt19937& gen, const std::vector<std::string>& author_last_nam
   return book(idk_gen(gen), authors, titles.at(title_gen(gen)), year_gen(gen));
 }
 
-std::list<book> generate_books_list(std::mt19937& gen, const std::vector<std::string>& author_last_name,
+std::list<book> generate_books_list(size_t max_count, std::mt19937& gen, const std::vector<std::string>& author_last_name,
                   const std::vector<std::string>& author_name,const std::vector<std::string>& author_father,
                   const std::vector<std::string>& titles)
 {
   std::list<book> books_list;
-  std::uniform_int_distribution<size_t> list_size_gen(1, 20);
-  size_t list_size = list_size_gen(gen);
-  for(size_t i{}; i < list_size; ++i)
+  for(size_t i{}; i < max_count; ++i)
   {
     add_book_to_list(books_list, book_gen(gen, author_last_name, author_name, author_father, titles));
   }
   return books_list;
 }
 
-library library_gen(std::mt19937 &gen, const std::vector<std::string>& author_last_name, const std::vector<std::string>& author_name,
+library library_gen(size_t max_count,std::mt19937 &gen, const std::vector<std::string>& author_last_name, const std::vector<std::string>& author_name,
                   const std::vector<std::string>& author_father, const std::vector<std::string> titles)
 {
-  return library(generate_books_list(gen, author_last_name, author_name, author_father, titles));
+  return library(generate_books_list(max_count, gen, author_last_name, author_name, author_father, titles));
 }
 
 void library::print(std::ostream& out) const

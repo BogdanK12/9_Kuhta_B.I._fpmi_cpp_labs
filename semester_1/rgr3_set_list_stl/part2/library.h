@@ -99,11 +99,11 @@ author author_gen(std::mt19937 &gen, const std::vector<std::string>& author_last
 book book_gen(std::mt19937& gen, const std::vector<std::string>& author_last_name, const std::vector<std::string>& author_name,
                   const std::vector<std::string>& author_father, const std::vector<std::string>& titles);
 
-std::list<book> generate_books_list(std::mt19937& gen, const std::vector<std::string>& author_last_name,
+std::list<book> generate_books_list(size_t max_count, std::mt19937& gen, const std::vector<std::string>& author_last_name,
                   const std::vector<std::string>& author_name,const std::vector<std::string>& author_father,
                   const std::vector<std::string>& titles);
 
-library library_gen(std::mt19937 &gen, const std::vector<std::string>& author_last_name, const std::vector<std::string>& author_name,
+library library_gen(size_t max_count, std::mt19937 &gen, const std::vector<std::string>& author_last_name, const std::vector<std::string>& author_name,
                   const std::vector<std::string>& author_father, const std::vector<std::string> titles);
 
 std::vector<std::string> parse_words(const std::string& text, const std::string& delimeters);
